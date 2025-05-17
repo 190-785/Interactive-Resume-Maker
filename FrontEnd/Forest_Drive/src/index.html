@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Forest Resume - Yash Agarwal</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"></script>
+
+    </head>
+<body>
+
+    <div id="loading-screen">
+        <div id="loading-text">Loading Interactive Forest Resume</div>
+        <div id="loading-bar-container">
+            <div id="loading-progress"></div>
+        </div>
+    </div>
+
+    <div id="error-message" class="error-message">
+        An error occurred. Please check the console for details.
+    </div>
+
+    <div id="about-panel" class="info-panel">
+        <h2>About Me</h2>
+        <div class="panel-content">
+            <p>Hi, I'm Yash Agarwal, a passionate software engineer with expertise in full-stack development,
+                game development, and interactive experiences.</p>
+            <p>With a strong foundation in computer science and a creative approach to problem-solving,
+                I build immersive digital experiences that combine technical excellence with intuitive design.</p>
+        </div>
+        <div class="panel-media-upload" data-section="About">
+            <label for="about-text-input">Update Text:</label>
+            <textarea id="about-text-input" rows="4" aria-label="Update Text Input for About"></textarea>
+            <button class="update-text-btn" data-section="About" title="Update Text (functionality might be disabled)">Update Text</button>
+            <hr>
+            Drop image/video/code snippet below or click to select.
+        </div>
+        <div class="drop-zone" id="drop-zone-about" data-section="About">Drag & Drop Content Here</div>
+        <div class="media-preview" id="media-preview-about"></div>
+        <div class="panel-controls">
+            <div class="panel-status-message" data-section="About"></div>
+            <button class="panel-action-btn edit-mode-btn" data-section="About">Edit</button>
+            <button class="panel-action-btn close-panel-btn" data-panelid="about-panel">Close</button>
+        </div>
+    </div>
+
+    <div id="skills-panel" class="info-panel">
+        <h2>Technical Skills</h2>
+        <div class="panel-content">
+            <h3>Languages</h3>
+            <p>JavaScript, TypeScript, Python, C#, HTML5, CSS3</p>
+            <h3>Frameworks & Libraries</h3>
+            <p>React, Three.js, Node.js, Express, Unity3D, WebGL</p>
+            <h3>Tools & Technologies</h3>
+            <p>Git, Docker, AWS, MongoDB, PostgreSQL, RESTful APIs, GraphQL</p>
+            <h3>Specializations</h3>
+            <p>3D Web Development, Interactive User Experiences, Game Development,
+                Responsive Design, Performance Optimization</p>
+        </div>
+        <div class="panel-media-upload" data-section="Skills">
+            <label for="skills-text-input">Update Text:</label>
+            <textarea id="skills-text-input" rows="4" aria-label="Update Text Input for Skills"></textarea>
+            <button class="update-text-btn" data-section="Skills" title="Update Text (functionality might be disabled)">Update Text</button>
+            <hr>
+            Drop image/video/code snippet below or click to select.
+        </div>
+        <div class="drop-zone" id="drop-zone-skills" data-section="Skills">Drag & Drop Content Here</div>
+        <div class="media-preview" id="media-preview-skills"></div>
+        <div class="panel-controls">
+            <div class="panel-status-message" data-section="Skills"></div>
+            <button class="panel-action-btn edit-mode-btn" data-section="Skills">Edit</button>
+            <button class="panel-action-btn close-panel-btn" data-panelid="skills-panel">Close</button>
+        </div>
+    </div>
+
+    <div id="experience-panel" class="info-panel">
+        <h2>Work Experience</h2>
+        <div class="panel-content">
+            <h3>Senior Software Engineer - TechCorp</h3>
+            <p>2022 - Present</p>
+            <ul>
+                <li>Led development of interactive data visualization platform using Three.js and React</li>
+                <li>Improved application performance by 40% through optimization techniques</li>
+                <li>Mentored junior developers and implemented agile methodologies</li>
+            </ul>
+            <h3>Full Stack Developer - WebSolutions Inc.</h3>
+            <p>2020 - 2022</p>
+            <ul>
+                <li>Developed responsive web applications with modern JavaScript frameworks</li>
+                <li>Created RESTful APIs and managed database architecture</li>
+                <li>Collaborated with UX/UI designers to implement engaging user experiences</li>
+            </ul>
+        </div>
+        <div class="panel-media-upload" data-section="Experience">
+            <label for="experience-text-input">Update Text:</label>
+            <textarea id="experience-text-input" rows="4" aria-label="Update Text Input for Experience"></textarea>
+            <button class="update-text-btn" data-section="Experience" title="Update Text (functionality might be disabled)">Update Text</button>
+            <hr>
+            Drop image/video/code snippet below or click to select.
+        </div>
+        <div class="drop-zone" id="drop-zone-experience" data-section="Experience">Drag & Drop Content Here</div>
+        <div class="media-preview" id="media-preview-experience"></div>
+        <div class="panel-controls">
+            <div class="panel-status-message" data-section="Experience"></div>
+            <button class="panel-action-btn edit-mode-btn" data-section="Experience">Edit</button>
+            <button class="panel-action-btn close-panel-btn" data-panelid="experience-panel">Close</button>
+        </div>
+    </div>
+
+    <div id="projects-panel" class="info-panel">
+        <h2>Featured Projects</h2>
+        <div class="panel-content">
+            <h3>VR Training Simulator</h3>
+            <p>Developed an immersive VR training platform for industrial safety protocols using Unity and WebXR.</p>
+            <h3>Interactive Data Dashboard</h3>
+            <p>Created a 3D data visualization dashboard for financial analytics using Three.js and D3.</p>
+            <h3>Mobile AR Navigation App</h3>
+            <p>Built an augmented reality navigation application for urban exploration with gamified elements.</p>
+        </div>
+        <div class="panel-media-upload" data-section="Projects">
+            <label for="projects-text-input">Update Text:</label>
+            <textarea id="projects-text-input" rows="4" aria-label="Update Text Input for Projects"></textarea>
+            <button class="update-text-btn" data-section="Projects" title="Update Text (functionality might be disabled)">Update Text</button>
+            <hr>
+            Drop image/video/code snippet below or click to select.
+        </div>
+        <div class="drop-zone" id="drop-zone-projects" data-section="Projects">Drag & Drop Content Here</div>
+        <div class="media-preview" id="media-preview-projects"></div>
+        <div class="panel-controls">
+            <div class="panel-status-message" data-section="Projects"></div>
+            <button class="panel-action-btn edit-mode-btn" data-section="Projects">Edit</button>
+            <button class="panel-action-btn close-panel-btn" data-panelid="projects-panel">Close</button>
+        </div>
+    </div>
+
+    <div id="education-panel" class="info-panel">
+        <h2>Education</h2>
+        <div class="panel-content">
+            <h3>Master of Science in Computer Science</h3>
+            <p>Technical University | 2018 - 2020</p>
+            <p>Specialization in Computer Graphics and Interactive Systems</p>
+            <h3>Bachelor of Science in Software Engineering</h3>
+            <p>University of Technology | 2014 - 2018</p>
+            <p>Graduated with Honors</p>
+        </div>
+        <div class="panel-media-upload" data-section="Education">
+            <label for="education-text-input">Update Text:</label>
+            <textarea id="education-text-input" rows="4" aria-label="Update Text Input for Education"></textarea>
+            <button class="update-text-btn" data-section="Education" title="Update Text (functionality might be disabled)">Update Text</button>
+            <hr>
+            Drop image/video/code snippet below or click to select.
+        </div>
+        <div class="drop-zone" id="drop-zone-education" data-section="Education">Drag & Drop Content Here</div>
+        <div class="media-preview" id="media-preview-education"></div>
+        <div class="panel-controls">
+            <div class="panel-status-message" data-section="Education"></div>
+            <button class="panel-action-btn edit-mode-btn" data-section="Education">Edit</button>
+            <button class="panel-action-btn close-panel-btn" data-panelid="education-panel">Close</button>
+        </div>
+    </div>
+
+    <div id="controls-ui">
+        <h3 style="margin:0 0 10px 0; font-size: 16px;">Interactive Resume</h3>
+        <div><b>W / &uarr;</b> : Accelerate</div>
+        <div><b>S / &darr;</b> : Brake/Reverse</div>
+        <div><b>A / &larr;</b> : Steer Left</div>
+        <div><b>D / &rarr;</b> : Steer Right</div>
+        <div><b>Mouse Orbit/Scroll</b> : Camera Control</div>
+        <div style="margin-top: 8px;">Approach scrolls to view resume sections.</div>
+    </div>
+
+    <script type="module" src="bundle.js"></script>
+    </body>
+</html>

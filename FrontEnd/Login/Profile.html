@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Forest - Profile</title>
+    <link rel="stylesheet" href="./css/profile.css" />
+</head>
+<body>
+    <div class="nav-bar">
+        <div class="logo">Resume Forest</div>
+        <div class="nav-links">
+            <a href="./dashboard.html">Dashboard</a>
+            <a href="./Profile.html">Profile</a>
+            <a href="./logout.html">Logout</a>
+        </div>
+    </div>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-avatar" id="profile-avatar">
+                <span id="avatar-initials">U</span>
+            </div>
+            <div class="profile-info">
+                <h2 id="full-name">User Name</h2>
+                <p id="email">user@example.com</p>
+                <p>Joined: <span id="joined-date">--</span></p>
+            </div>
+        </div>
+
+        <!-- Edit Profile Details -->
+        <div class="profile-section">
+            <div class="section-title">Edit Profile</div>
+            <form id="profile-form">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" required>
+
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName">
+
+                <label for="emailField">Email Address</label>
+                <input type="email" id="emailField" name="emailField" required>
+
+                <label for="bio">Bio</label>
+                <textarea id="bio" name="bio" rows="4" placeholder="Tell us a bit about yourself..."></textarea>
+
+                <button type="submit" class="btn">Save Profile</button>
+            </form>
+        </div>
+
+        <!-- Change Password -->
+        <div class="profile-section">
+            <div class="section-title">Change Password</div>
+            <form id="password-form">
+                <label for="currentPassword">Current Password</label>
+                <input type="password" id="currentPassword" name="currentPassword" required>
+
+                <label for="newPassword">New Password</label>
+                <input type="password" id="newPassword" name="newPassword" required>
+
+                <label for="confirmPassword">Confirm New Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+                <button type="submit" class="btn">Update Password</button>
+            </form>
+        </div>
+
+    <script src="./js/profile.js"></script>
+</body>
+</html>
+</body>
+</html>

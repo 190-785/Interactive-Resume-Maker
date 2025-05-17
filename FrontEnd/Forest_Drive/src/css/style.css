@@ -1,0 +1,303 @@
+/* General Body and Canvas Styles */
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #000; /* Fallback if canvas fails */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+    color: #e0e0e0; /* Lighter default text for better readability */
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Loading Screen */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #111;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    transition: opacity 1s ease;
+}
+#loading-text { font-size: 2em; margin-bottom: 20px; }
+#loading-bar-container { width: 50%; height: 20px; border: 2px solid white; border-radius: 10px; overflow: hidden; }
+#loading-progress { height: 100%; width: 0%; background-color: #4CAF50; transition: width 0.3s ease; }
+
+/* Error Message */
+.error-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 0, 0, 0.85); /* Slightly more opaque */
+    color: white;
+    padding: 20px 25px;
+    border-radius: 8px; /* Softer radius */
+    z-index: 1001;
+    display: none;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* Info Panel General Styles - Enhanced */
+.info-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(30, 30, 30, 0.95); /* Darker, more opaque */
+    color: #e0e0e0;
+    padding: 20px 25px; /* Consistent padding */
+    border-radius: 8px;
+    width: 90%;
+    max-width: 650px; /* Slightly wider for more content */
+    max-height: 90vh; /* Allow more height */
+    overflow-y: auto;
+    z-index: 500;
+    display: none;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+    border: 1px solid #555; /* Slightly more prominent border */
+}
+
+.info-panel h2 {
+    margin-top: 0;
+    color: #5cb85c; /* Calmer green */
+    border-bottom: 1px solid #444;
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+    font-size: 1.6em; /* Larger heading */
+}
+
+.info-panel .panel-content p,
+.info-panel .panel-content li {
+    line-height: 1.7; /* Increased line height */
+    color: #ccc;
+    margin-bottom: 10px; /* Spacing between paragraphs/list items */
+}
+.info-panel .panel-content ul {
+    padding-left: 20px; /* Standard ul padding */
+}
+.info-panel .panel-content h3 {
+    color: #77bce9; /* Softer blue */
+    margin-top: 25px;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+/* Editing elements - Hidden by default */
+.panel-media-upload,
+.drop-zone {
+    display: none; /* Hidden by default, shown by JS when in edit mode */
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #444;
+}
+
+.panel-media-upload label {
+    display: block;
+    margin-bottom: 8px;
+    color: #bbb;
+    font-weight: bold;
+}
+.panel-media-upload textarea {
+    width: calc(100% - 22px); /* Adjusted for padding */
+    padding: 10px;
+    margin-bottom: 12px;
+    border-radius: 5px;
+    border: 1px solid #555;
+    background-color: #2c2c2c; /* Darker textarea */
+    color: #e0e0e0;
+    min-height: 80px; /* Minimum height */
+    font-family: inherit;
+    font-size: 0.95em;
+}
+.panel-media-upload textarea:focus {
+    border-color: #5cb85c;
+    outline: none;
+    box-shadow: 0 0 5px rgba(92, 184, 92, 0.5);
+}
+
+.drop-zone {
+    border: 2px dashed #666; /* Softer dash color */
+    border-radius: 5px;
+    padding: 30px; /* More padding */
+    text-align: center;
+    color: #888; /* Softer text color */
+    margin-top: 15px;
+    background-color: rgba(255,255,255,0.03); /* Very subtle background */
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.drop-zone.dragover { /* This class would need to be added by JS during drag events */
+    background-color: rgba(92, 184, 92, 0.2);
+    border-color: #5cb85c;
+    color: #5cb85c;
+}
+
+.media-preview {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #444; /* Add border if there's content */
+}
+.media-preview:empty { /* Hide border if no preview content */
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+}
+.media-preview img,
+.media-preview video,
+.media-preview audio { 
+    max-width: 100%;
+    max-height: 250px; 
+    border-radius: 5px;
+    border: 1px solid #555;
+    display: block; 
+    margin: 0 auto 10px auto; 
+}
+.media-preview pre {
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    padding: 12px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    border: 1px solid #444;
+}
+
+
+/* Panel Controls - Enhanced */
+.panel-controls {
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid #444;
+    display: flex; 
+    justify-content: flex-end; 
+    align-items: center; 
+    gap: 10px; 
+}
+
+.panel-status-message {
+    color: #ffc107; /* Warning yellow for messages */
+    font-size: 0.9em;
+    margin-right: auto; /* Push message to the left */
+    display: none; /* Hidden by default, shown by JS */
+}
+
+.panel-action-btn {
+    background-color: #4a5568; /* Neutral button color */
+    color: white;
+    border: none;
+    padding: 10px 18px; 
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    min-width: 80px; /* Ensure buttons have some minimum width */
+    text-align: center;
+}
+.panel-action-btn:hover {
+    background-color: #2d3748; /* Darker hover */
+}
+
+.panel-action-btn.edit-mode-btn.editing { /* Style when in "Finish Editing" state */
+    background-color: #c53030; /* Reddish for cancel/finish */
+}
+.panel-action-btn.edit-mode-btn.editing:hover {
+    background-color: #9b2c2c;
+}
+
+
+.panel-action-btn.close-panel-btn {
+    background-color: #718096; /* Slightly different grey for close */
+}
+.panel-action-btn.close-panel-btn:hover {
+    background-color: #4a5568;
+}
+
+
+/* General Update Button (inside panel-media-upload) */
+.update-text-btn {
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 5px; /* Spacing from textarea */
+    font-size: 0.9em;
+    transition: background-color 0.2s ease;
+}
+.update-text-btn:hover {
+    background-color: #4a9b4a;
+}
+
+/* Styles for Disabled Inputs/Buttons (consolidated) */
+.update-text-btn:disabled {
+    background-color: #555;
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.panel-action-btn:disabled { /* Main edit button when disabled */
+    background-color: #555 !important; 
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+textarea:disabled { /* General disabled textarea style */
+    background-color: #333; 
+    color: #777;
+    cursor: not-allowed;
+    border-color: #444; /* Match other disabled elements */
+}
+/* End Styles for Disabled Inputs/Buttons */
+
+
+/* Controls UI (Player Controls) */
+#controls-ui {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: white;
+    padding: 10px 15px;
+    background-color: rgba(0,0,0,0.7); 
+    border-radius: 5px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    z-index: 100;
+    font-size: 13px;
+    line-height: 1.5;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+#controls-ui b {
+    color: #8ab6c1;
+}
+
+/* Scrollbar styling for info panels */
+.info-panel::-webkit-scrollbar {
+    width: 8px;
+}
+.info-panel::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+    border-radius: 10px;
+}
+.info-panel::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 10px;
+}
+.info-panel::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}

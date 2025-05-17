@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resume Forest - Dashboard</title>
+    <link rel="stylesheet" href="./css/dashboard.css" />
+</head>
+<body>
+    <div class="nav-bar">
+        <div class="logo">Resume Forest</div>
+        <div class="nav-links">
+            <a href="./dashboard.html">Dashboard</a>
+            <a href="./profile.html">Profile</a>
+            <a id="logout-link">Logout</a>
+        </div>
+    </div>
+
+    <div class="dashboard-container">
+        <div class="welcome-section">
+            <h1>Welcome, <span id="username">User</span>!</h1>
+            <p>Manage your interactive 3D forest resume from this dashboard.</p>
+        </div>
+
+        <div class="resume-actions">
+            <div class="action-card" onclick="location.href='./resume/create.html'">
+                <h3>Create New Resume</h3>
+                <p>Start from scratch with our interactive 3D forest template.</p>
+                <button class="btn">Create Now</button>
+            </div>
+            <div class="action-card" onclick="location.href='./resume/templates.html'">
+                <h3>Use a Template</h3>
+                <p>Start with a pre-designed resume and customize it.</p>
+                <button class="btn">Browse Templates</button>
+            </div>
+            <div class="action-card" onclick="location.href='./resume/import.html'">
+                <h3>Import Resume</h3>
+                <p>Upload your existing resume and convert it to 3D forest format.</p>
+                <button class="btn">Import</button>
+            </div>
+        </div>
+
+        <div class="user-resumes">
+            <h2>Your Resumes</h2>
+            <div class="resume-list" id="resume-list">
+                <!-- Resume items will be populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/dashboard.js"></script>
+</body>
+</html>

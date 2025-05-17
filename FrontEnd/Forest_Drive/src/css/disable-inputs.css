@@ -1,0 +1,64 @@
+/* Styles for disabled inputs and drag & drop areas */
+.panel-media-upload[aria-disabled="true"] {
+    opacity: 0.6;
+    pointer-events: none;
+    user-select: none;
+}
+
+.panel-media-upload[aria-disabled="false"] {
+    opacity: 1;
+    pointer-events: auto;
+    user-select: auto;
+}
+
+textarea[disabled] {
+    background-color: #f0f0f0;
+    color: #888;
+    cursor: not-allowed;
+}
+
+textarea:enabled {
+    background-color: #fff;
+    color: #000;
+    cursor: text;
+}
+
+.update-text-btn[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.update-text-btn:enabled {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.drop-zone[aria-disabled="true"] {
+    opacity: 0.5;
+    pointer-events: none;
+    border: 2px dashed #ccc;
+    color: #999;
+}
+
+.drop-zone[aria-disabled="false"] {
+    opacity: 1;
+    pointer-events: auto;
+    border: 2px dashed #666;
+    color: #333;
+}
+
+/* Style for the edit button */
+.edit-panel-btn {
+    font-size: 0.8em;
+    margin-left: 10px;
+    padding: 2px 6px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 3px;
+}
+
+.edit-panel-btn:hover {
+    background-color: #0056b3;
+}
