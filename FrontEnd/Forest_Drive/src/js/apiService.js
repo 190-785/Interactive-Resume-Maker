@@ -57,18 +57,31 @@ const apiService = {
       body: JSON.stringify(userData)
     });
   },
-  
-  getUserProfile: async () => {
-    return callApi('/api/auth/user/profile');
+    getUserProfile: async () => {
+    return callApi('/api/users/current');
   },
   
-  // Resume-related API functions
-  getAllResumes: async () => {
-    return callApi('/api/auth/resumes');
+  updateUserProfile: async (profileData) => {
+    return callApi('/api/users/profile', {
+      method: 'PUT',
+      body: JSON.stringify(profileData)
+    });
   },
   
-  getResume: async (id) => {
-    return callApi(`/api/auth/resumes/${id}`);
+  uploadAvatar: async (formData) => {
+    // For avatar upload, we don't set Content-Type - let the browser set it with the boundary
+    return callApi('/api/users/avatar', {
+      method: 'POST',
+      headers: {}, // Override default headers
+      body: formData
+    });
+  },
+  
+  changePassword: async (passwordData) => {
+    return callApi('/api/users/password', {
+      method: 'PUT',
+      body: JSON.stringify(passwordData)
+    });
   },
   
   createResume: async (resumeData) => {

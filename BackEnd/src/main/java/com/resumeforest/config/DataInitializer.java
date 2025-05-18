@@ -1,7 +1,7 @@
 package com.resumeforest.config;
 
-import com.resumeforest.model.User;
-import com.resumeforest.service.UserService;
+import com.resumeforest.models.User;
+import com.resumeforest.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

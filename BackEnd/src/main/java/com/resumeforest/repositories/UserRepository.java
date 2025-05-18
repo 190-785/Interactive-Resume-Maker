@@ -1,9 +1,8 @@
-package com.resumeforest.repository;
+package com.resumeforest.repositories;
 
-import com.resumeforest.model.User;
+import com.resumeforest.models.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
-
 import java.util.Optional;
 
 @Repository

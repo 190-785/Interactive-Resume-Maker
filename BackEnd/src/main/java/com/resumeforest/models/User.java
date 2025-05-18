@@ -1,93 +1,88 @@
-package com.resumeforest.model;
+package com.resumeforest.models;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import java.time.LocalDateTime;
 
 @Document(collection = "users")
 public class User {
-
     @Id
     private String id;
-
-    @Indexed(unique = true)
     private String username;
-
-    @Indexed(unique = true)
     private String email;
-
-    private String password;
+    private String password; // This would be hashed in production
     private String fullName;
-    private String createdAt;
-    private String updatedAt;
-
-    // Default constructor required for MongoDB
+    private String bio;
+    private LocalDateTime joinedAt;
+    private String avatarUrl;
+    
+    // Constructor
     public User() {
+        this.joinedAt = LocalDateTime.now();
     }
-
-    public User(String username, String email, String password, String fullName) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.fullName = fullName;
-        this.createdAt = java.time.LocalDateTime.now().toString();
-        this.updatedAt = this.createdAt;
-    }
-
-    // Getters and setters
+    
+    // Getters and Setters
     public String getId() {
         return id;
     }
-
+    
     public void setId(String id) {
         this.id = id;
     }
-
+    
     public String getUsername() {
         return username;
     }
-
+    
     public void setUsername(String username) {
         this.username = username;
     }
-
+    
     public String getEmail() {
         return email;
     }
-
+    
     public void setEmail(String email) {
         this.email = email;
     }
-
+    
     public String getPassword() {
         return password;
     }
-
+    
     public void setPassword(String password) {
         this.password = password;
     }
-
+    
     public String getFullName() {
         return fullName;
     }
-
+    
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
-
-    public String getCreatedAt() {
-        return createdAt;
+    
+    public String getBio() {
+        return bio;
     }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    
+    public void setBio(String bio) {
+        this.bio = bio;
     }
-
-    public String getUpdatedAt() {
-        return updatedAt;
+    
+    public LocalDateTime getJoinedAt() {
+        return joinedAt;
     }
-
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
+    
+    public void setJoinedAt(LocalDateTime joinedAt) {
+        this.joinedAt = joinedAt;
+    }
+    
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+    
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

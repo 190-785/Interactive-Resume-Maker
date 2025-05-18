@@ -11,8 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
     
-    console.log('Fetching real user data from database...');
-    
     // Skip localStorage display and immediately fetch real data from server
     fetchUserData();
     
@@ -172,9 +170,6 @@ function fetchUserData() {
             throw new Error('Received invalid user data from the server');
         }
         
-        // Log received data for debugging
-        console.log('Received user data from database:', data);
-        
         // Update localStorage with the latest data from database
         const userDetails = {
             userId: data.id || data.userId,
@@ -197,7 +192,7 @@ function fetchUserData() {
         loadingIndicator.remove();
         
         console.error('Error fetching user data from database:', error);
-        showNotification('Failed to load profile data from database. Please try refreshing the page.', 'error');
+        showNotification('Failed to load profile data. Please try refreshing the page.', 'error');
     });
 }
 
@@ -208,25 +203,46 @@ function updateProfileUI(data) {
         return;
     }
     
-    // Get user name (prefer fullName, fallback to username)
     const name = data.fullName || data.username;
-    
-    // Get DOM elements
     const fullNameElement = document.getElementById('full-name');
     const emailElement = document.getElementById('email');
+    const bioElement = document.getElementById('bio');
     const avatarInitialsElement = document.getElementById('avatar-initials');
-    const joinedDateElement = document.getElementById('joined-date');
-    const firstNameField = document.getElementById('firstName');
-    const lastNameField = document.getElementById('lastName');
-    const emailField = document.getElementById('emailField');
-    const bioField = document.getElementById('bio');
     
-    // Update name in header
     if (fullNameElement && name) {
         fullNameElement.textContent = name;
+    } else if (fullNameElement) {
+        fullNameElement.textContent = 'User Name'; // Only if name is not available in database
     }
     
-    // Update email in header - email should never be empty as it's required for registration
+    if (emailElement && data.email) {
+        emailElement.textContent = data.email;
+    } else if (emailElement) {
+        emailElement.textContent = 'Email not available'; // Only if email is not available in database
+    }
+    
+    // Update avatar with proper sizing
+    if (data.avatarUrl) {
+        const avatarEl = document.getElementById('profile-avatar');
+        if (avatarEl) {
+            avatarEl.innerHTML = `<img src="${data.avatarUrl}" alt="Avatar" style="width:120px; height:120px; object-fit:cover;">`;
+            
+            // Hide initials when there's an avatar
+            if (avatarInitialsElement) {
+                avatarInitialsElement.style.display = 'none';
+            }
+        }
+    } else if (avatarInitialsElement) {
+        // Show initials if no avatar
+        avatarInitialsElement.style.display = 'flex';
+        if (name) {
+            const initials = name.split(' ').map(n => n[0]).join('').toUpperCase();
+            avatarInitialsElement.textContent = initials;
+        } else {
+            avatarInitialsElement.textContent = '?';
+        }
+    }
+    
     if (emailElement && data.email) {
         emailElement.textContent = data.email;
     }
@@ -235,8 +251,7 @@ function updateProfileUI(data) {
     if (data.avatarUrl) {
         const avatarEl = document.getElementById('profile-avatar');
         if (avatarEl) {
-            // Use CSS classes instead of inline styles for better maintainability
-            avatarEl.innerHTML = `<img src="${data.avatarUrl}" alt="Avatar">`;
+            avatarEl.innerHTML = `<img src="${data.avatarUrl}" alt="Avatar" style="width: 120px; height: 120px; object-fit: cover;">`;
             
             // Hide initials when there's an avatar
             if (avatarInitialsElement) {
@@ -250,7 +265,45 @@ function updateProfileUI(data) {
         avatarInitialsElement.textContent = initials;
     }
     
+    // Update joined date with real database data
+    const joinedDateElement = document.getElementById('joined-date');
+    if (joinedDateElement && data.joinedAt) {
+        // Use our internationalized date formatter
+        joinedDateElement.textContent = formatDate(data.joinedAt);
+        // Add relative time as a tooltip
+        joinedDateElement.title = formatRelativeTime(data.joinedAt);
+    }
+    
+    // Populate form fields with actual database data
+    const firstNameField = document.getElementById('firstName');
+    const lastNameField = document.getElementById('lastName');
+    const emailField = document.getElementById('emailField');
+    const bioField = document.getElementById('bio');
+    
+    if (firstNameField && data.fullName) {
+        const nameParts = data.fullName.split(' ');
+        firstNameField.value = nameParts[0] || '';
+    }
+    
+    if (lastNameField && data.fullName) {
+        const nameParts = data.fullName.split(' ');
+        lastNameField.value = nameParts.slice(1).join(' ') || '';
+    }
+    
+    if (emailField && data.email) {
+        emailField.value = data.email;
+    }
+    
+    if (bioField) {
+        bioField.value = data.bio || '';
+        if (!data.bio) {
+            bioField.placeholder = 'Tell us a bit about yourself...';
+        }
+    }
+}
+    
     // Update joined date
+    const joinedDateElement = document.getElementById('joined-date');
     if (joinedDateElement) {
         if (data.joinedAt) {
             // Use our internationalized date formatter
@@ -264,7 +317,12 @@ function updateProfileUI(data) {
         }
     }
     
-    // Populate form fields with name parts
+    // Populate form fields
+    const firstNameField = document.getElementById('firstName');
+    const lastNameField = document.getElementById('lastName');
+    const emailField = document.getElementById('emailField');
+    const bioField = document.getElementById('bio');
+    
     if (firstNameField && data.fullName) {
         const nameParts = data.fullName.split(' ');
         firstNameField.value = nameParts[0] || '';
@@ -275,23 +333,15 @@ function updateProfileUI(data) {
         lastNameField.value = nameParts.slice(1).join(' ') || '';
     }
     
-    // Populate email field - should never be empty
-    if (emailField && data.email) {
-        emailField.value = data.email;
+    if (emailField) {
+        emailField.value = data.email || '';
     }
     
-    // Populate bio field
     if (bioField) {
         bioField.value = data.bio || '';
-        if (!data.bio) {
+        if (data.bio === '') {
             bioField.placeholder = 'Tell us a bit about yourself...';
         }
-    }
-    
-    // Debug info display
-    const debugUserData = document.getElementById('debug-user-data');
-    if (debugUserData) {
-        debugUserData.textContent = JSON.stringify(data, null, 2);
     }
 }
 
@@ -540,7 +590,6 @@ function uploadAvatar(event) {
                     
                     // Update UI
                     if (avatarEl) {
-                        // Use proper sizing for the avatar image
                         avatarEl.innerHTML = `<img src="${userData.avatarUrl}" alt="Avatar">`;
                     }
                     
@@ -550,12 +599,6 @@ function uploadAvatar(event) {
                     }
                     
                     showNotification('Avatar updated successfully', 'success');
-                    
-                    // Refresh the debug data
-                    const debugUserData = document.getElementById('debug-user-data');
-                    if (debugUserData) {
-                        debugUserData.textContent = JSON.stringify(userData, null, 2);
-                    }
                 })
                 .catch(error => {
                     console.error('Error uploading avatar:', error);
@@ -568,8 +611,7 @@ function uploadAvatar(event) {
                     // Fallback to client-side preview as temporary solution
                     if (avatarEl) {
                         avatarEl.innerHTML = `<img src="${e.target.result}" alt="Avatar">`;
-                        showNotification('Server error: Avatar is displayed as a preview only and will not be saved permanently.', 'error');
-                    }
+                        showNotification('Server error: Avatar is displayed as a preview only and will not be saved permanently.', 'error');                    }
                 });
         };
         

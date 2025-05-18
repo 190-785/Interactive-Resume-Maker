@@ -9,10 +9,10 @@
 <body>
     <a href="./index.html" class="home-link">Back to Home</a>
     
-    <div class="login-container">
-        <h1>Login to Your Account</h1>
+    <div class="login-container">        <h1>Login to Your Account</h1>
         
         <div id="error-message" class="error-message"></div>
+        <div id="success-message" class="success-message" style="display: none; background-color: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin-bottom: 20px;"></div>
         
         <form id="login-form">
             <input type="text" id="username" name="username" placeholder="Username" required />
@@ -23,9 +23,9 @@
         <div class="links">
             <a href="./Register_Page.html">Don't have an account? Register</a>
             <a href="./forgot-password.html">Forgot Password?</a>
-        </div>
-    </div>
+        </div>    </div>
 
+    <script src="./js/mockApiLogin.js"></script>
     <script type="module" src="./js/login.js"></script>
 
 </body>

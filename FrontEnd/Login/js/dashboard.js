@@ -1,5 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
-    fetchUserData();
+    // Check if user is logged in
+    const userData = localStorage.getItem('user');
+    if (!userData) {
+        // Redirect to login if not logged in
+        window.location.href = './Login_Page.html';
+        return;
+    }
+    
+    displayUserData();
     fetchUserResumes();
 
     // Attach logout handler
@@ -7,34 +15,70 @@ document.addEventListener('DOMContentLoaded', function() {
     if (logoutLink) {
         logoutLink.addEventListener('click', function(e) {
             e.preventDefault();
-            // Clear token from localStorage
+            // Clear data from localStorage
             localStorage.removeItem('token');
+            localStorage.removeItem('user');
             // Redirect to login page
-            window.location.href = '/Login/Login_Page.html';
+            window.location.href = './Login_Page.html';
         });
     }
 });
 
-function fetchUserData() {
-    fetch('/api/user/current')
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('username').textContent = data.firstName || data.username;
-        })
-        .catch(error => console.error('Error fetching user data:', error));
+function displayUserData() {
+    try {
+        const userData = JSON.parse(localStorage.getItem('user'));
+        if (userData) {
+            // Update username in the welcome message
+            const usernameElement = document.getElementById('username');
+            if (usernameElement) {
+                usernameElement.textContent = userData.fullName || userData.username;
+            }
+            
+            // Update avatar
+            const avatarEl = document.getElementById('user-avatar');
+            const initialsEl = document.getElementById('avatar-initials');
+            
+            if (avatarEl) {
+                if (userData.avatarUrl) {
+                    avatarEl.innerHTML = `<img src="${userData.avatarUrl}" alt="Avatar">`;
+                } else if (initialsEl) {
+                    const name = userData.fullName || userData.username;
+                    const initials = name.split(' ').map(n => n[0]).join('').toUpperCase();
+                    initialsEl.textContent = initials;
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error displaying user data:', error);
+    }
 }
 
 function fetchUserResumes() {
-    fetch('/api/resumes')
-        .then(response => response.json())
-        .then(resumes => {
-            const resumeList = document.getElementById('resume-list');
-            resumeList.innerHTML = '';
-            
-            if (resumes.length === 0) {
-                resumeList.innerHTML = '<p>You haven\'t created any resumes yet. Get started by creating one!</p>';
-                return;
-            }
+    const token = localStorage.getItem('token');
+    
+    if (!token) {
+        console.error('No authentication token found');
+        return;
+    }
+      fetch('/api/resumes', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to fetch resumes');
+        }
+        return response.json();
+    })
+    .then(resumes => {
+        const resumeList = document.getElementById('resume-list');
+        resumeList.innerHTML = '';
+        
+        if (!resumes || resumes.length === 0) {
+            resumeList.innerHTML = '<p>You haven\'t created any resumes yet. Get started by creating one!</p>';
+            return;
+        }
             
             resumes.forEach(resume => {
                 const resumeItem = document.createElement('div');

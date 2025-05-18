@@ -1,12 +1,10 @@
-package com.resumeforest.controller;
+package com.resumeforest.controllers;
 
-import com.resumeforest.model.User;
+import com.resumeforest.models.User;
 import com.resumeforest.payload.LoginRequest;
 import com.resumeforest.payload.SignUpRequest;
-import com.resumeforest.repository.UserRepository;
 import com.resumeforest.security.JwtTokenProvider;
-import com.resumeforest.service.UserService;
-import io.jsonwebtoken.JwtException;
+import com.resumeforest.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -33,12 +30,6 @@ public class AuthApiController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private JwtTokenProvider tokenProvider;
@@ -67,14 +58,13 @@ public class AuthApiController {
             Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("success", true);
             responseBody.put("token", jwt);
-
             String username = authentication.getName();
             logger.debug("Fetching user details for: {}", username);
-            Optional<User> userOptional = userService.findByUsername(username); 
+            Optional<User> userOptional = userService.getUserByUsername(username); 
             
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
-                logger.debug("User object retrieved: {}", user); // Log the whole user object if its toString() is reasonable
+                logger.debug("User object retrieved: {}", user); 
                 logger.debug("User ID: {}", user.getId());
                 logger.debug("Username: {}", user.getUsername());
                 logger.debug("Email: {}", user.getEmail());
@@ -99,24 +89,25 @@ public class AuthApiController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("success", false, "error", "An internal error occurred during login. Please check server logs."));
         }
     }
-
+    
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
         try {
-            User newUser = userService.registerUser(
-                signUpRequest.getUsername(),
-                signUpRequest.getEmail(),
-                signUpRequest.getPassword(),
-                signUpRequest.getName()
-            );
+            User newUser = new com.resumeforest.models.User();
+            newUser.setUsername(signUpRequest.getUsername());
+            newUser.setEmail(signUpRequest.getEmail());
+            newUser.setPassword(signUpRequest.getPassword()); 
+            newUser.setFullName(signUpRequest.getName());
+            
+            User registeredUser = userService.registerUser(newUser);
 
             Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("success", true);
             responseBody.put("message", "User registered successfully");
-            responseBody.put("userId", newUser.getId());
-            responseBody.put("username", newUser.getUsername());
-            responseBody.put("email", newUser.getEmail());
-            responseBody.put("fullName", newUser.getFullName());
+            responseBody.put("userId", registeredUser.getId());
+            responseBody.put("username", registeredUser.getUsername());
+            responseBody.put("email", registeredUser.getEmail());
+            responseBody.put("fullName", registeredUser.getFullName());
             
             return ResponseEntity.status(HttpStatus.CREATED).body(responseBody);
 
@@ -138,7 +129,7 @@ public class AuthApiController {
                  return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("success", false, "error", "User not authenticated."));
             }
             String username = auth.getName();
-            Optional<User> userOpt = userService.findByUsername(username);
+            Optional<User> userOpt = userService.getUserByUsername(username);
             
             if (userOpt.isEmpty()) {
                 logger.warn("Authenticated user {} not found in database.", username);
@@ -160,11 +151,11 @@ public class AuthApiController {
                 .body(Map.of("success", false, "error", "Failed to retrieve user profile: " + e.getMessage()));
         }
     }
-
+    
     @GetMapping("/check-username")
     public ResponseEntity<?> checkUsername(@RequestParam String username) {
         try {
-            boolean exists = userService.findByUsername(username).isPresent();
+            boolean exists = userService.getUserByUsername(username).isPresent();
             return ResponseEntity.ok(Map.of("available", !exists, "success", true));
         } catch (Exception e) {
             logger.error("Error checking username availability for {}: {}", username, e.getMessage(), e);
@@ -172,59 +163,16 @@ public class AuthApiController {
                 .body(Map.of("success", false, "error", "Error checking username availability."));
         }
     }
-
+    
     @GetMapping("/check-email")
     public ResponseEntity<?> checkEmail(@RequestParam String email) {
         try {
-            boolean exists = userService.findByEmail(email).isPresent();
+            boolean exists = userService.getUserByEmail(email).isPresent();
             return ResponseEntity.ok(Map.of("available", !exists, "success", true));
         } catch (Exception e) {
             logger.error("Error checking email availability for {}: {}", email, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Map.of("success", false, "error", "Error checking email availability."));
-        }
-    }
-
-    @GetMapping("/validate-token")
-    public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String authHeader) {
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(Map.of("success", false, "valid", false, "message", "Authorization header is missing or not Bearer type"));
-        }
-        String token = authHeader.substring(7);
-
-        try {
-            if (!tokenProvider.validateToken(token)) {
-                logger.debug("Token validation failed by tokenProvider.validateToken (details not logged).");
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("success", false, "valid", false, "message", "Token is invalid or expired."));
-            }
-
-            String username = tokenProvider.getUsernameFromJWT(token);
-            Optional<User> userOpt = userService.findByUsername(username); 
-
-            if (userOpt.isPresent()) {
-                User user = userOpt.get();
-                Map<String, Object> responseMap = new HashMap<>();
-                responseMap.put("success", true);
-                responseMap.put("valid", true);
-                responseMap.put("userId", user.getId());
-                responseMap.put("username", user.getUsername());
-                return ResponseEntity.ok(responseMap);
-            } else {
-                logger.warn("Valid token processed for a user not found in repository: {}", username);
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("success", false, "valid", false, "message", "User associated with token not found."));
-            }
-        } catch (JwtException jwtEx) { 
-            logger.warn("JWT processing error: {}. Token: {}", jwtEx.getMessage(), token);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(Map.of("success", false, "valid", false, "message", "Error processing token: " + jwtEx.getMessage()));
-        } 
-        catch (Exception e) { 
-            logger.error("Unexpected error during token validation: {}. Token: {}", e.getMessage(), token, e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Map.of("success", false, "valid", false, "message", "An unexpected server error occurred during token validation."));
         }
     }
 }

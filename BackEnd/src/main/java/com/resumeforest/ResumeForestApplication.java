@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-@SpringBootApplication
-@EnableMongoRepositories
+@SpringBootApplication(scanBasePackages = "com.resumeforest")
+@EnableMongoRepositories(basePackages = "com.resumeforest.repositories")
 public class ResumeForestApplication {
 
     public static void main(String[] args) {

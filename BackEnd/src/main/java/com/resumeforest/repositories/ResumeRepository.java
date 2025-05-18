@@ -1,6 +1,6 @@
-package com.resumeforest.repository;
+package com.resumeforest.repositories;
 
-import com.resumeforest.model.Resume;
+import com.resumeforest.models.Resume;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +10,7 @@ import java.util.Optional;
 @Repository
 public interface ResumeRepository extends MongoRepository<Resume, String> {
     List<Resume> findByUserId(String userId);
-    List<Resume> findByIsPublicTrue();
     Optional<Resume> findByUserIdAndResumeName(String userId, String resumeName);
+    Optional<Resume> findByUserIdAndId(String userId, String id);
+    List<Resume> findByIsPublicTrue();
 }

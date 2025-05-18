@@ -1,7 +1,7 @@
 package com.resumeforest.config;
 
-import com.resumeforest.security.JwtAuthenticationEntryPoint;
-import com.resumeforest.security.JwtAuthenticationFilter;
+import com.resumeforest.security.jwt.JwtAuthEntryPoint;
+import com.resumeforest.security.jwt.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
+    private JwtAuthEntryPoint unauthorizedHandler;
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {

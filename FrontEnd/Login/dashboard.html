@@ -14,12 +14,17 @@
             <a href="./profile.html">Profile</a>
             <a id="logout-link">Logout</a>
         </div>
-    </div>
-
-    <div class="dashboard-container">
+    </div>    <div class="dashboard-container">
         <div class="welcome-section">
-            <h1>Welcome, <span id="username">User</span>!</h1>
-            <p>Manage your interactive 3D forest resume from this dashboard.</p>
+            <div class="user-profile-summary">
+                <div class="user-avatar" id="user-avatar">
+                    <span id="avatar-initials">U</span>
+                </div>
+                <div class="user-greeting">
+                    <h1>Welcome, <span id="username">User</span>!</h1>
+                    <p>Manage your interactive 3D forest resume from this dashboard.</p>
+                </div>
+            </div>
         </div>
 
         <div class="resume-actions">
@@ -45,9 +50,9 @@
             <div class="resume-list" id="resume-list">
                 <!-- Resume items will be populated dynamically -->
             </div>
-        </div>
-    </div>
+        </div>    </div>
 
+    <script src="./js/mockApi.js"></script>
     <script src="./js/dashboard.js"></script>
 </body>
 </html>

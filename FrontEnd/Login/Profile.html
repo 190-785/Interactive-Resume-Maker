@@ -8,18 +8,21 @@
 </head>
 <body>
     <div class="nav-bar">
-        <div class="logo">Resume Forest</div>
-        <div class="nav-links">
+        <div class="logo">Resume Forest</div>        <div class="nav-links">
             <a href="./dashboard.html">Dashboard</a>
             <a href="./Profile.html">Profile</a>
-            <a href="./logout.html">Logout</a>
+            <a href="#" id="logout-link">Logout</a>
         </div>
     </div>
 
-    <div class="profile-container">
-        <div class="profile-header">
-            <div class="profile-avatar" id="profile-avatar">
-                <span id="avatar-initials">U</span>
+    <div class="profile-container">        <div class="profile-header">            <div class="profile-avatar-container">
+                <div class="profile-avatar" id="profile-avatar">
+                    <span id="avatar-initials">U</span>
+                </div>
+                <div class="avatar-upload">
+                    <label for="avatar-upload" class="upload-btn">Upload Photo</label>
+                    <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+                </div>
             </div>
             <div class="profile-info">
                 <h2 id="full-name">User Name</h2>
@@ -46,27 +49,69 @@
 
                 <button type="submit" class="btn">Save Profile</button>
             </form>
-        </div>
-
-        <!-- Change Password -->
+        </div>        <!-- Change Password -->
         <div class="profile-section">
             <div class="section-title">Change Password</div>
-            <form id="password-form">
-                <label for="currentPassword">Current Password</label>
-                <input type="password" id="currentPassword" name="currentPassword" required>
-
-                <label for="newPassword">New Password</label>
-                <input type="password" id="newPassword" name="newPassword" required>
-
-                <label for="confirmPassword">Confirm New Password</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" required>
+            <form id="password-form">                <label for="currentPassword">Current Password</label>
+                <input type="password" id="currentPassword" name="currentPassword" autocomplete="current-password" required>                <label for="newPassword">New Password</label>
+                <input type="password" id="newPassword" name="newPassword" autocomplete="new-password" required>
+                <div class="password-strength-meter">
+                    <div class="strength-meter-bar" id="password-strength-meter"></div>
+                    <p id="password-strength-text">Password strength</p>
+                </div>                <label for="confirmPassword">Confirm New Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" autocomplete="new-password" required>
+                <p id="password-match-message" class="validation-message"></p>
 
                 <button type="submit" class="btn">Update Password</button>
             </form>
         </div>
+        
+        <!-- Preferences Section -->
+        <div class="profile-section">
+            <div class="section-title">Preferences</div>
+            <div class="preference-item">
+                <label for="language-selector">Language & Region:</label>
+                <select id="language-selector" class="form-control">
+                    <!-- Options will be populated from JavaScript -->
+                </select>
+                <p class="preference-help">Choose your preferred language and date format</p>
+            </div>
+        </div>
 
-    <script src="./js/profile.js"></script>
-</body>
-</html>
+        <!-- Debug Information (Hidden by default) -->
+        <div class="profile-section" id="debug-section" style="display: none;">
+            <div class="section-title">Debug Information</div>
+            <div id="debug-info">
+                <p>LocalStorage User Data: <pre id="debug-user-data"></pre></p>
+                <p>API Response: <pre id="debug-api-response"></pre></p>
+            </div>
+            <button type="button" class="btn" onclick="toggleDebugInfo()">Toggle Debug Info</button>
+        </div>
+    </div>
+
+    <script>
+        // Toggle debug information
+        function toggleDebugInfo() {
+            const debugSection = document.getElementById('debug-section');
+            const userData = JSON.parse(localStorage.getItem('user')) || {};
+            
+            document.getElementById('debug-user-data').textContent = JSON.stringify(userData, null, 2);
+            
+            if (debugSection.style.display === 'none') {
+                debugSection.style.display = 'block';
+            } else {
+                debugSection.style.display = 'none';
+            }
+        }
+        
+        // Add debug toggle with keyboard shortcut (Ctrl+Shift+D)
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.shiftKey && e.key === 'D') {
+                toggleDebugInfo();
+                e.preventDefault();
+            }
+        });
+    </script>    <script src="./js/mockApi.js"></script>
+    <script type="module" src="./js/profile.js"></script>
 </body>
 </html>

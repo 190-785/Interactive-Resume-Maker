@@ -16,12 +16,10 @@ import java.util.Date;
 import io.jsonwebtoken.JwtParser;
 
 @Component
-public class JwtTokenProvider {
-
-    @Value("${app.jwtSecret}")
+public class JwtTokenProvider {    @Value("${resumeforest.app.jwtSecret}")
     private String jwtSecret;
 
-    @Value("${app.jwtExpirationInMs}")
+    @Value("${resumeforest.app.jwtExpirationMs}")
     private int jwtExpirationInMs;
 
     private Key key;

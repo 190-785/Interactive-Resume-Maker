@@ -1,7 +1,7 @@
-package com.resumeforest.service;
+package com.resumeforest.services;
 
-import com.resumeforest.model.Resume;
-import com.resumeforest.repository.ResumeRepository;
+import com.resumeforest.models.Resume;
+import com.resumeforest.repositories.ResumeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,28 +23,34 @@ public class ResumeService {
         Resume resume = new Resume(userId, resumeName);
         return resumeRepository.save(resume);
     }
-
-    public List<Resume> getUserResumes(String userId) {
-        return resumeRepository.findByUserId(userId);
-    }
-
-    public List<Resume> getPublicResumes() {
-        return resumeRepository.findByIsPublicTrue();
-    }
-
+    
     public Optional<Resume> getResumeById(String resumeId) {
         return resumeRepository.findById(resumeId);
     }
-
+    
+    public Optional<Resume> getResumeByUserIdAndId(String userId, String resumeId) {
+        return resumeRepository.findByUserIdAndId(userId, resumeId);
+    }
+      public List<Resume> getResumesByUserId(String userId) {
+        return resumeRepository.findByUserId(userId);
+    }
+    
+    public List<Resume> getUserResumes(String userId) {
+        return getResumesByUserId(userId);
+    }
+    
     public Resume updateResume(Resume resume) {
         return resumeRepository.save(resume);
     }
-
-    public void deleteResume(String resumeId) {
+      public void deleteResume(String resumeId) {
         resumeRepository.deleteById(resumeId);
     }
-
-    public Optional<Resume> getResumeByUserIdAndName(String userId, String resumeName) {
-        return resumeRepository.findByUserIdAndResumeName(userId, resumeName);
+    
+    /**
+     * Get all public resumes
+     * @return List of public resumes
+     */
+    public List<Resume> getAllPublicResumes() {
+        return resumeRepository.findByIsPublicTrue();
     }
 }

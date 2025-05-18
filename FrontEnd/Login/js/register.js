@@ -35,13 +35,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const originalButtonText = submitButton.textContent;
         submitButton.textContent = 'Registering...';
         submitButton.disabled = true;
-        
-        // Call register API
+          // Call register API
         const userData = {
           username,
           email,
           password,
-          fullName
+          fullName,
+          bio: '', // Initialize with empty bio
+          joinedAt: new Date().toISOString(),
+          avatarUrl: null
         };
         
         const response = await apiService.register(userData);

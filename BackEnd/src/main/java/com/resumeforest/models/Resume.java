@@ -1,4 +1,4 @@
-package com.resumeforest.model;
+package com.resumeforest.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -16,19 +16,21 @@ public class Resume {
     private String aboutMe;
     private Map<String, String> skills = new HashMap<>();
     private Map<String, String> experience = new HashMap<>();
-    private Map<String, String> projects = new HashMap<>();
-    private Map<String, String> education = new HashMap<>();
+    private Map<String, String> projects = new HashMap<>();    private Map<String, String> education = new HashMap<>();
     private Map<String, String> mediaUrls = new HashMap<>();
     private boolean isPublic = false;
-    
+
+    // Default constructor
     public Resume() {
     }
-    
+
+    // Constructor with basic fields
     public Resume(String userId, String resumeName) {
         this.userId = userId;
         this.resumeName = resumeName;
     }
 
+    // Getters and setters
     public String getId() {
         return id;
     }
@@ -95,12 +97,10 @@ public class Resume {
 
     public Map<String, String> getMediaUrls() {
         return mediaUrls;
-    }
-
-    public void setMediaUrls(Map<String, String> mediaUrls) {
+    }    public void setMediaUrls(Map<String, String> mediaUrls) {
         this.mediaUrls = mediaUrls;
     }
-
+    
     public boolean isPublic() {
         return isPublic;
     }
