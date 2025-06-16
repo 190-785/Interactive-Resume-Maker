@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starting 3D Forest Scene...</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .launcher-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .status {
+            margin: 20px 0;
+            font-size: 16px;
+        }
+        
+        .btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .btn:hover {
+            background: #218838;
+        }
+        
+        .error {
+            color: #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+    <div class="launcher-container">
+        <div class="spinner" id="spinner"></div>
+        <h2>Starting 3D Forest Scene</h2>
+        <div class="status" id="status">Initializing webpack development server...</div>
+        <button class="btn" id="openSceneBtn" onclick="openScene()">Open Scene</button>
+        <button class="btn" id="retryBtn" onclick="startServer()" style="background: #dc3545;">Retry</button>
+    </div>
+
+    <script>
+        let serverStarted = false;
+        
+        // Get the mode from URL parameters or localStorage
+        const urlParams = new URLSearchParams(window.location.search);
+        const mode = urlParams.get('mode') || localStorage.getItem('forestDriveMode') || 'preview';
+        
+        // Start the server when page loads
+        window.addEventListener('load', startServer);
+        
+        async function startServer() {
+            const spinner = document.getElementById('spinner');
+            const status = document.getElementById('status');
+            const openBtn = document.getElementById('openSceneBtn');
+            const retryBtn = document.getElementById('retryBtn');
+            
+            // Reset UI
+            spinner.style.display = 'block';
+            status.className = 'status';
+            status.textContent = 'Checking if server is already running...';
+            openBtn.style.display = 'none';
+            retryBtn.style.display = 'none';
+            
+            try {
+                // First check if server is already running
+                const response = await fetch('http://localhost:8080');
+                if (response.ok) {
+                    status.textContent = 'Server is already running!';
+                    spinner.style.display = 'none';
+                    openBtn.style.display = 'inline-block';
+                    serverStarted = true;
+                    return;
+                }
+            } catch (error) {
+                // Server not running, need to start it
+            }
+            
+            status.textContent = 'Starting webpack development server...';
+            
+            try {
+                // Start the server by running the batch file
+                await startWebpackServer();
+                
+                status.textContent = 'Server started successfully!';
+                spinner.style.display = 'none';
+                openBtn.style.display = 'inline-block';
+                serverStarted = true;
+                
+            } catch (error) {
+                console.error('Failed to start server:', error);
+                status.className = 'status error';
+                status.textContent = 'Failed to start server. Please try the manual method.';
+                spinner.style.display = 'none';
+                retryBtn.style.display = 'inline-block';
+                
+                // Show manual instructions
+                showManualInstructions();
+            }
+        }
+          async function startWebpackServer() {
+            return new Promise((resolve, reject) => {
+                status.textContent = 'Launching server... This may take a few moments.';
+                
+                // Try to start the server using different methods
+                startServerWithBatch()
+                    .then(resolve)
+                    .catch(() => {
+                        // If batch fails, try PowerShell
+                        status.textContent = 'Trying alternative method...';
+                        startServerWithPowerShell()
+                            .then(resolve)
+                            .catch(reject);
+                    });
+            });
+        }
+        
+        async function startServerWithBatch() {
+            return new Promise((resolve, reject) => {
+                // Try to open the batch file
+                const batchWindow = window.open('../Forest_Drive/start-server.bat', '_blank');
+                
+                // Wait for server to be ready
+                waitForServer('http://localhost:8080', 20000)
+                    .then(() => {
+                        if (batchWindow && !batchWindow.closed) {
+                            batchWindow.close();
+                        }
+                        resolve();
+                    })
+                    .catch(reject);
+            });
+        }
+        
+        async function startServerWithPowerShell() {
+            return new Promise((resolve, reject) => {
+                // Create a link to the PowerShell script and trigger it
+                const link = document.createElement('a');
+                link.href = '../Forest_Drive/start-server.ps1';
+                link.download = 'start-server.ps1';
+                link.style.display = 'none';
+                document.body.appendChild(link);
+                
+                // Inform user to run the script manually
+                status.textContent = 'Please run the downloaded PowerShell script to start the server.';
+                
+                // Wait for server to be ready
+                waitForServer('http://localhost:8080', 30000)
+                    .then(resolve)
+                    .catch(reject);
+                
+                // Trigger download
+                link.click();
+                document.body.removeChild(link);
+            });
+        }
+        
+        async function waitForServer(url, timeout = 15000) {
+            const startTime = Date.now();
+            let attempts = 0;
+            const maxAttempts = timeout / 1000;
+            
+            while (Date.now() - startTime < timeout) {
+                try {
+                    const response = await fetch(url);
+                    if (response.ok) {
+                        return true;
+                    }
+                } catch (error) {
+                    // Server not ready yet
+                }
+                
+                attempts++;
+                status.textContent = `Starting server... (${attempts}/${maxAttempts})`;
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+            
+            throw new Error('Server start timeout');
+        }
+        
+        function openScene() {
+            if (serverStarted) {
+                window.location.href = 'http://localhost:8080';
+            }
+        }
+          function showManualInstructions() {
+            const container = document.querySelector('.launcher-container');
+            const instructions = document.createElement('div');
+            instructions.innerHTML = `
+                <div style="margin-top: 20px; padding: 20px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; text-align: left;">
+                    <h3>🚀 Start the 3D Scene Server:</h3>
+                    
+                    <div style="margin: 15px 0;">
+                        <h4>📋 Method 1: Command Line (Recommended)</h4>
+                        <ol style="text-align: left;">
+                            <li>Open Command Prompt or PowerShell</li>
+                            <li>Navigate to: <code style="background: rgba(0,0,0,0.3); padding: 2px 4px; border-radius: 3px;">F:\\Interavtive_Resume\\Interactive-Resume-Maker</code></li>
+                            <li>Run: <code style="background: rgba(0,0,0,0.3); padding: 2px 4px; border-radius: 3px; font-size: 12px;">npx webpack serve --config FrontEnd/Forest_Drive/webpack.config.js --mode development</code></li>
+                            <li>Wait for "webpack compiled" message</li>
+                            <li>Click "Open Scene" below</li>
+                        </ol>
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <h4>🖱️ Method 2: Quick Launch Files</h4>
+                        <div style="display: flex; gap: 10px; justify-content: center; margin: 10px 0;">
+                            <button class="btn" onclick="downloadScript('bat')" style="background: #007bff;">Download .BAT</button>
+                            <button class="btn" onclick="downloadScript('ps1')" style="background: #0056b3;">Download .PS1</button>
+                            <button class="btn" onclick="downloadScript('js')" style="background: #28a745;">Download .JS</button>
+                        </div>
+                        <p style="font-size: 14px; opacity: 0.8;">Download and run any of these files to start the server</p>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button class="btn" onclick="openScene()" style="background: #28a745; font-size: 18px; padding: 15px 30px;">🌲 Open 3D Forest Scene</button>
+                        <p style="font-size: 12px; opacity: 0.7; margin-top: 10px;">Make sure the server is running first!</p>
+                    </div>
+                </div>
+            `;
+            container.appendChild(instructions);
+        }
+        
+        function downloadScript(type) {
+            let filename, content;
+            
+            if (type === 'bat') {
+                filename = 'start-forest-server.bat';
+                content = `@echo off
+echo Starting 3D Forest Resume Server...
+echo Please wait while we prepare your interactive environment...
+
+REM Change to the correct directory (project root)
+cd /d "F:\\Interavtive_Resume\\Interactive-Resume-Maker"
+
+REM Start webpack devServer for development
+echo Starting webpack development server...
+npx webpack serve --config FrontEnd/Forest_Drive/webpack.config.js --mode development --open
+
+echo.
+echo 3D Forest Resume Server is now running!
+echo You can access it at: http://localhost:8080
+echo.
+echo Press any key to stop the server...
+pause > nul`;
+            } else if (type === 'ps1') {
+                filename = 'start-forest-server.ps1';
+                content = `# PowerShell script to start webpack development server
+Write-Host "Starting 3D Forest Resume Server..." -ForegroundColor Green
+Write-Host "Please wait while we prepare your interactive environment..." -ForegroundColor Yellow
+
+# Change to the correct directory (project root)
+Set-Location "F:\\Interavtive_Resume\\Interactive-Resume-Maker"
+
+Write-Host "Starting webpack development server..." -ForegroundColor Cyan
+
+try {
+    # Start webpack devServer for development
+    npx webpack serve --config FrontEnd/Forest_Drive/webpack.config.js --mode development --open
+    
+    Write-Host "3D Forest Resume Server is now running!" -ForegroundColor Green
+    Write-Host "You can access it at: http://localhost:8080" -ForegroundColor White
+}
+catch {
+    Write-Host "Error starting server: $_" -ForegroundColor Red
+    Write-Host "Press any key to exit..." -ForegroundColor Yellow
+    $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+}`;
+            } else if (type === 'js') {
+                filename = 'start-forest-server.js';
+                content = `const { spawn } = require('child_process');
+const path = require('path');
+
+console.log('🌲 Starting Forest Drive 3D Resume Server...');
+
+// Change to project root directory
+const projectRoot = "F:\\\\Interavtive_Resume\\\\Interactive-Resume-Maker";
+process.chdir(projectRoot);
+
+console.log('📁 Working directory: ' + process.cwd());
+
+console.log('🚀 Starting webpack development server...');
+
+const webpackProcess = spawn('npx', [
+    'webpack', 'serve',
+    '--config', 'FrontEnd/Forest_Drive/webpack.config.js',
+    '--mode', 'development',
+    '--open'
+], {
+    stdio: 'inherit',
+    shell: true
+});
+
+webpackProcess.on('error', (error) => {
+    console.error('❌ Error starting webpack server:', error.message);
+    process.exit(1);
+});
+
+console.log('✅ Server startup initiated! Visit http://localhost:8080 once ready.');
+
+// Keep the process alive
+process.on('SIGINT', () => {
+    console.log('\\n🛑 Shutting down server...');
+    webpackProcess.kill();
+    process.exit(0);
+});`;
+            }
+            
+            // Create and download file
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert(`Downloaded ${filename}! Run it to start the server, then click "Open Scene".`);
+        }
+    </script>
+</body>
+</html>

@@ -112,16 +112,189 @@
     gap: 20px;
 }
 .resume-item {
-    background-color: white;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border: 1px solid #e9ecef;
 }
-.resume-item h4 {
-    margin-top: 0;
+.resume-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+.resume-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+.resume-header h4 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+.resume-status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.resume-status.public {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+.resume-status.private {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+.resume-description {
+    color: #6c757d;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 12px 0;
+}
+.resume-meta {
+    font-size: 0.85rem;
+    color: #adb5bd;
+    margin: 8px 0;
+    font-style: italic;
 }
 .resume-actions {
-    margin-top: 15px;
     display: flex;
-    gap: 10px;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #e9ecef;
+}
+.resume-actions .btn {
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+.btn-primary {
+    background-color: #0d6efd;
+    color: white;
+}
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    transform: translateY(-1px);
+}
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+.btn-secondary:hover {
+    background-color: #5c636a;
+    transform: translateY(-1px);
+}
+.btn-outline {
+    background-color: transparent;
+    color: #0d6efd;
+    border: 1px solid #0d6efd;
+}
+.btn-outline:hover {
+    background-color: #0d6efd;
+    color: white;
+    transform: translateY(-1px);
+}
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+.btn-danger:hover {
+    background-color: #bb2d3b;
+    transform: translateY(-1px);
+}
+/* No Resumes State */
+.no-resumes {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px dashed #dee2e6;
+    border-radius: 12px;
+    margin: 2rem 0;
+}
+.no-resumes h3 {
+    color: #495057;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+.no-resumes p {
+    color: #6c757d;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+/* Error Message */
+.error-message {
+    text-align: center;
+    padding: 2rem;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+/* Loading State */
+.loading-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    font-size: 1.1rem;
+    color: #6c757d;
+}
+.loading-indicator .spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #e9ecef;
+    border-top: 2px solid #0d6efd;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+    .resume-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+    
+    .resume-actions .btn {
+        text-align: center;
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+    
+    .action-card {
+        margin-bottom: 20px;
+    }
+    
+    .resume-actions {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .resume-header {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .resume-status {
+        align-self: flex-start;
+    }
 }

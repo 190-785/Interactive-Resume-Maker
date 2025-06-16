@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starting Control Server</title>
+</head>
+<body>
+    <script>
+        // This page automatically starts the control server when loaded
+        (async function() {
+            try {
+                // Try to start the control server using Node.js
+                const { spawn } = require('child_process');
+                const path = require('path');
+                
+                const serverPath = path.join(__dirname, 'server-controller.js');
+                const controlServer = spawn('node', [serverPath], {
+                    detached: true,
+                    stdio: 'ignore'
+                });
+                
+                controlServer.unref();
+                console.log('Control server started');
+                
+            } catch (error) {
+                console.error('Failed to start control server:', error);
+                
+                // Fallback: try to start using a different method
+                try {
+                    const iframe = document.createElement('iframe');
+                    iframe.style.display = 'none';
+                    iframe.src = 'data:text/html,<script>const{spawn}=require("child_process");spawn("node",["server-controller.js"],{detached:true,stdio:"ignore"}).unref();<\/script>';
+                    document.body.appendChild(iframe);
+                } catch (fallbackError) {
+                    console.error('Fallback method also failed:', fallbackError);
+                }
+            }
+        })();
+    </script>
+</body>
+</html>

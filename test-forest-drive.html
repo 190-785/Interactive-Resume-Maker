@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forest Drive Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-align: center;
+        }
+        
+        .test-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            margin: 10px;
+        }
+        
+        .test-btn:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>🌲 Forest Drive Test Page</h1>
+    <p>Click the button below to test the automatic server starting:</p>
+    
+    <button class="test-btn" onclick="testServerStart()">Test Server Start</button>
+    <button class="test-btn" onclick="checkServer()">Check Server Status</button>
+    
+    <div id="status" style="margin-top: 20px; font-size: 16px;"></div>
+
+    <script>
+        // Copy the server checking function from dashboard.js
+        async function checkServerRunning() {
+            try {
+                const response = await fetch('http://localhost:8080', {
+                    method: 'HEAD',
+                    mode: 'no-cors'
+                });
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        // Test function
+        async function testServerStart() {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = '🔄 Testing server start...';
+            
+            try {
+                const isRunning = await checkServerRunning();
+                if (isRunning) {
+                    statusDiv.innerHTML = '✅ Server is already running! <a href="http://localhost:8080" target="_blank" style="color: #fff;">Open Scene</a>';
+                } else {
+                    statusDiv.innerHTML = '❌ Server is not running. Starting download...';
+                    downloadStarterFile();
+                    statusDiv.innerHTML = '📥 Starter file downloaded! Check your Downloads folder and run "start-forest-server.bat"';
+                }
+            } catch (error) {
+                statusDiv.innerHTML = '❌ Error: ' + error.message;
+            }
+        }
+
+        async function checkServer() {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = '🔄 Checking server status...';
+            
+            const isRunning = await checkServerRunning();
+            if (isRunning) {
+                statusDiv.innerHTML = '✅ Server is running! <a href="http://localhost:8080" target="_blank" style="color: #fff;">Open Scene</a>';
+            } else {
+                statusDiv.innerHTML = '❌ Server is not running.';
+            }
+        }
+
+        // Function to download starter file
+        function downloadStarterFile() {
+            const batchContent = `@echo off
+title Forest Drive 3D Resume Server
+color 0A
+echo ================================================================
+echo         🌲 FOREST DRIVE 3D RESUME SERVER 🌲
+echo ================================================================
+echo.
+echo Starting your 3D Forest Resume server...
+echo Keep this window OPEN while using the application.
+echo Close this window to stop the server.
+echo.
+
+cd /d "F:\\Interavtive_Resume\\Interactive-Resume-Maker"
+
+echo 🚀 Starting development server...
+echo Your 3D resume will be available at: http://localhost:8080
+echo.
+
+npx webpack serve --config FrontEnd/Forest_Drive/webpack.config.js --mode development --port 8080
+
+echo.
+echo Server stopped. Press any key to close...
+pause > nul`;
+            
+            const blob = new Blob([batchContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            
+            const tempLink = document.createElement('a');
+            tempLink.href = url;
+            tempLink.download = 'start-forest-server.bat';
+            tempLink.style.display = 'none';
+            document.body.appendChild(tempLink);
+            tempLink.click();
+            document.body.removeChild(tempLink);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

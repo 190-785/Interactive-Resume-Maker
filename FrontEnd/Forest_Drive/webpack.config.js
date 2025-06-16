@@ -62,10 +62,17 @@ module.exports = {
           from: 'src/css/**/*',
           to: 'css/[name][ext]',
           noErrorOnMissing: true
-        },
-        {
+        },        {
           from: 'src/index.html',
           to: 'index.html'
+        },
+        {
+          from: 'src/js/loginBridge.js',
+          to: 'js/loginBridge.js'
+        },
+        {
+          from: 'src/js/resumeIntegration.js',
+          to: 'js/resumeIntegration.js'
         },
         {
           from: '**/*',
@@ -75,14 +82,13 @@ module.exports = {
         }
       ]
     })
-  ],
-  devServer: {
+  ],  devServer: {
     static: {
       directory: path.join(__dirname, 'dist'),
       serveIndex: true,
       watch: true,
     },
-    port: 8080,
+    port: 3000,
     open: true,
     hot: true,
     compress: true,
@@ -92,16 +98,9 @@ module.exports = {
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
       "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
     },
-    allowedHosts: ['.localhost', '127.0.0.1'],
-    client: {
-      webSocketURL: 'ws://localhost:8080/ws',
+    allowedHosts: ['.localhost', '127.0.0.1'],    client: {
+      webSocketURL: 'auto://0.0.0.0:0/ws',
       overlay: false
-    },
-    webSocketServer: {
-      type: 'ws',
-      options: {
-        path: '/ws'
-      }
     }
   },
   resolve: {

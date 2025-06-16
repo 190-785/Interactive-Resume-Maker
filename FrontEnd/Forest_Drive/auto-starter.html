@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forest Drive Auto-Starter</title>
+</head>
+<body>
+    <div id="status">Starting Forest Drive Server...</div>
+    
+    <script>
+        // This page runs the server startup command when accessed
+        const statusDiv = document.getElementById('status');
+        
+        // Function to start the server
+        async function startServer() {
+            try {
+                statusDiv.textContent = 'Attempting to start webpack server...';
+                
+                // Create a form that submits to a data URL to execute the command
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = 'data:text/plain,';
+                form.target = '_blank';
+                form.style.display = 'none';
+                
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'command';
+                input.value = 'start webpack server';
+                
+                form.appendChild(input);
+                document.body.appendChild(form);
+                
+                // Try to submit the form
+                form.submit();
+                
+                // Clean up
+                document.body.removeChild(form);
+                
+                statusDiv.textContent = 'Server start command executed. Checking server status...';
+                
+                // Check if server started
+                let attempts = 0;
+                const maxAttempts = 30;
+                
+                const checkServer = async () => {
+                    try {
+                        const response = await fetch('http://localhost:8080', { method: 'HEAD', mode: 'no-cors' });
+                        statusDiv.textContent = 'Server is running! Redirecting...';
+                        setTimeout(() => {
+                            window.location.href = 'http://localhost:8080';
+                        }, 1000);
+                        return true;
+                    } catch (error) {
+                        attempts++;
+                        if (attempts < maxAttempts) {
+                            statusDiv.textContent = `Waiting for server... (${attempts}/${maxAttempts})`;
+                            setTimeout(checkServer, 1000);
+                        } else {
+                            statusDiv.innerHTML = `
+                                <h3>Manual Start Required</h3>
+                                <p>Please run this command in Command Prompt:</p>
+                                <code>cd F:\\Interavtive_Resume\\Interactive-Resume-Maker && npx webpack serve --config FrontEnd/Forest_Drive/webpack.config.js --mode development</code>
+                                <br><br>
+                                <button onclick="window.location.href='http://localhost:8080'">Open Scene</button>
+                                <button onclick="window.close()">Close</button>
+                            `;
+                        }
+                        return false;
+                    }
+                };
+                
+                // Start checking
+                setTimeout(checkServer, 2000);
+                
+            } catch (error) {
+                statusDiv.textContent = 'Error: ' + error.message;
+            }
+        }
+        
+        // Start the server when page loads
+        window.addEventListener('load', startServer);
+    </script>
+</body>
+</html>

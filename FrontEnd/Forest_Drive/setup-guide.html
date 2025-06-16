@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forest Drive Setup Guide</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        
+        .btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary { background: #007bff; }
+        .btn-primary:hover { background: #0056b3; }
+        
+        .step {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+        
+        .warning {
+            background: rgba(255, 193, 7, 0.2);
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .success {
+            background: rgba(40, 167, 69, 0.2);
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌲 Forest Drive 3D Resume Setup</h1>
+        
+        <div class="warning">
+            <strong>⚠️ Important:</strong> The 3D Forest Scene runs on a development server that needs to be started before you can use it.
+        </div>
+          <div class="section">
+            <h2>🚀 Super Easy Setup (Recommended)</h2>
+            <div class="step">
+                <strong>1.</strong> Run the startup script in your project folder:
+                <div class="code-block">start-forest-drive.bat</div>
+            </div>
+            <div class="step">
+                <strong>2.</strong> Keep the server window open (it manages everything automatically)
+            </div>
+            <div class="step">
+                <strong>3.</strong> Use the dashboard normally - servers start automatically!
+            </div>
+            <div class="step">
+                <strong>4.</strong> Dashboard: <a href="http://localhost:3000" target="_blank">http://localhost:3000</a>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🎯 How It Works</h2>
+            <p>The new system uses a manager server that:</p>
+            <ul>
+                <li>✅ Automatically starts the 3D scene server when needed</li>
+                <li>✅ Restarts it if it crashes</li>
+                <li>✅ Provides a seamless experience</li>
+                <li>✅ No manual server management required</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>📋 Alternative Methods</h2>
+            
+            <h3>Method 1: Download Launcher Scripts</h3>
+            <p>Download and run one of these scripts to start the server automatically:</p>
+            <button class="btn btn-primary" onclick="downloadScript('bat')">📁 Download BAT File</button>
+            <button class="btn btn-primary" onclick="downloadScript('ps1')">⚡ Download PowerShell</button>
+            <button class="btn btn-primary" onclick="downloadScript('js')">🟢 Download Node.js</button>
+            
+            <h3>Method 2: Use the Launcher Page</h3>
+            <a href="launcher.html" class="btn">🚀 Open Launcher Page</a>
+        </div>
+        
+        <div class="section">
+            <h2>🔧 Troubleshooting</h2>
+            
+            <h3>Common Issues:</h3>
+            <ul>
+                <li><strong>Port 8080 already in use:</strong> Make sure no other server is running on port 8080</li>
+                <li><strong>npx not found:</strong> Make sure Node.js is installed on your system</li>
+                <li><strong>Permission denied:</strong> Try running as Administrator</li>
+                <li><strong>Module not found:</strong> Run <code>npm install</code> in the project directory first</li>
+            </ul>
+            
+            <h3>Prerequisites:</h3>
+            <ul>
+                <li>Node.js (version 14 or higher)</li>
+                <li>npm (comes with Node.js)</li>
+                <li>Modern web browser</li>
+            </ul>
+        </div>
+        
+        <div class="success">
+            <strong>✅ Success!</strong> Once the server is running, you can access your 3D Forest Resume at <a href="http://localhost:8080" style="color: #28a745;">http://localhost:8080</a>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="../Login/dashboard.html" class="btn">🏠 Back to Dashboard</a>
+            <a href="http://localhost:8080" class="btn" target="_blank">🌲 Open Forest Scene</a>
+        </div>
+    </div>
+
+    <script>
+        function downloadScript(type) {
+            let filename, content;
+            
+            const projectPath = "F:\\\\Interavtive_Resume\\\\Interactive-Resume-Maker";
+            const webpackConfig = "FrontEnd/Forest_Drive/webpack.config.js";
+            
+            if (type === 'bat') {
+                filename = 'start-forest-server.bat';
+                content = `@echo off
+echo 🌲 Starting Forest Drive 3D Resume Server...
+echo Please wait while we prepare your interactive environment...
+
+REM Change to the correct directory
+cd /d "${projectPath}"
+
+echo 🚀 Starting webpack development server...
+npx webpack serve --config ${webpackConfig} --mode development --open
+
+echo.
+echo ✅ Server is running at http://localhost:8080
+echo Press Ctrl+C to stop the server
+pause`;
+            } else if (type === 'ps1') {
+                filename = 'start-forest-server.ps1';
+                content = `# Forest Drive 3D Resume Server Launcher
+Write-Host "🌲 Starting Forest Drive 3D Resume Server..." -ForegroundColor Green
+
+# Change to project directory
+Set-Location "${projectPath}"
+Write-Host "📁 Working in: $(Get-Location)" -ForegroundColor Yellow
+
+Write-Host "🚀 Starting webpack development server..." -ForegroundColor Cyan
+
+try {
+    & npx webpack serve --config "${webpackConfig}" --mode development --open
+    Write-Host "✅ Server started successfully!" -ForegroundColor Green
+}
+catch {
+    Write-Host "❌ Error: $_" -ForegroundColor Red
+    Write-Host "Press any key to exit..." -ForegroundColor Yellow
+    $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+}`;
+            } else if (type === 'js') {
+                filename = 'start-forest-server.js';
+                content = `#!/usr/bin/env node
+
+const { spawn } = require('child_process');
+const path = require('path');
+
+console.log('🌲 Forest Drive 3D Resume Server Launcher');
+console.log('=========================================\\n');
+
+// Project configuration
+const PROJECT_ROOT = "${projectPath}";
+const WEBPACK_CONFIG = "${webpackConfig}";
+
+// Change to project directory
+process.chdir(PROJECT_ROOT);
+console.log('📁 Working directory:', process.cwd());
+
+console.log('🚀 Starting webpack development server...\\n');
+
+// Spawn webpack dev server
+const server = spawn('npx', [
+    'webpack', 'serve',
+    '--config', WEBPACK_CONFIG,
+    '--mode', 'development',
+    '--open'
+], {
+    stdio: 'inherit',
+    shell: true
+});
+
+server.on('error', (error) => {
+    console.error('❌ Failed to start server:', error.message);
+    process.exit(1);
+});
+
+server.on('close', (code) => {
+    console.log('\\n🔻 Server stopped with code:', code);
+});
+
+// Handle graceful shutdown
+process.on('SIGINT', () => {
+    console.log('\\n🛑 Shutting down server...');
+    server.kill('SIGTERM');
+    process.exit(0);
+});
+
+console.log('✅ Server should open in your browser automatically');
+console.log('📱 Manual URL: http://localhost:8080');
+console.log('⏹️  Press Ctrl+C to stop the server\\n');`;
+            }
+            
+            // Create and trigger download
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert(`📥 Downloaded ${filename}!\\n\\n🚀 Run the file to start the server, then visit:\\nhttp://localhost:8080`);
+        }
+    </script>
+</body>
+</html>

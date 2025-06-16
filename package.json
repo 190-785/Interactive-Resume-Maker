@@ -1,1 +1,28 @@
-{}
+{
+  "name": "interactive-resume-maker",
+  "version": "1.0.0",
+  "description": "Interactive 3D Forest Resume Maker",
+  "main": "index.js",
+  "scripts": {
+    "start": "node FrontEnd/Forest_Drive/forest-drive-manager.js",
+    "dev": "npx webpack serve --config FrontEnd/Forest_Drive/webpack.config.js --mode development",
+    "build": "npx webpack --config FrontEnd/Forest_Drive/webpack.config.js --mode production",
+    "install-deps": "cd FrontEnd/Forest_Drive && npm install"
+  },
+  "keywords": [
+    "resume",
+    "3d",
+    "interactive",
+    "three.js"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.0",
+    "webpack-dev-server": "^5.2.2"
+  }
+}

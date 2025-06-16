@@ -12,13 +12,14 @@
     <div class="register-container">
         <h1>Create an Account</h1>
         
-        <div id="error-message" class="error-message"></div>
+        <div id="error-message" class="error-message" style="display: none;"></div>
+        <div id="success-message" class="success-message" style="display: none; background-color: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin-bottom: 20px;"></div>
         
         <form id="register-form">
             <input type="text" id="fullName" name="fullName" placeholder="Full Name" required />
             <input type="text" id="username" name="username" placeholder="Username" required />
             <input type="email" id="email" name="email" placeholder="Email Address" required />
-            <input type="password" id="password" name="password" placeholder="Password" required />
+            <input type="password" id="password" name="password" placeholder="Password (min 6 characters)" required minlength="6" />
             <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required />
             <button type="submit">Register</button>
         </form>
@@ -28,6 +29,6 @@
         </div>
     </div>
 
-    <script src="./js/register.js"></script>
+    <script type="module" src="./js/register.js"></script>
 </body>
 </html>

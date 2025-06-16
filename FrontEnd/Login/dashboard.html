@@ -25,23 +25,25 @@
                     <p>Manage your interactive 3D forest resume from this dashboard.</p>
                 </div>
             </div>
-        </div>
-
-        <div class="resume-actions">
-            <div class="action-card" onclick="location.href='./resume/create.html'">
+        </div>        <div class="resume-actions">
+            <div class="action-card" onclick="editMyResume()">
+                <h3>Edit My Resume</h3>
+                <p>Edit your interactive 3D forest resume with real-time preview.</p>
+                <button class="btn">Edit Now</button>
+            </div>
+            <div class="action-card" onclick="createNewResume()">
                 <h3>Create New Resume</h3>
                 <p>Start from scratch with our interactive 3D forest template.</p>
                 <button class="btn">Create Now</button>
+            </div>            <div class="action-card" onclick="previewMyResume()">
+                <h3>Preview My Resume</h3>
+                <p>View your resume in the 3D forest environment.</p>
+                <button class="btn">Preview</button>
             </div>
-            <div class="action-card" onclick="location.href='./resume/templates.html'">
-                <h3>Use a Template</h3>
-                <p>Start with a pre-designed resume and customize it.</p>
-                <button class="btn">Browse Templates</button>
-            </div>
-            <div class="action-card" onclick="location.href='./resume/import.html'">
-                <h3>Import Resume</h3>
-                <p>Upload your existing resume and convert it to 3D forest format.</p>
-                <button class="btn">Import</button>
+            <div class="action-card" onclick="openSetupGuide()">
+                <h3>🔧 Setup Guide</h3>
+                <p>Learn how to start the 3D Forest Scene server.</p>
+                <button class="btn" style="background: #17a2b8;">View Guide</button>
             </div>
         </div>
 

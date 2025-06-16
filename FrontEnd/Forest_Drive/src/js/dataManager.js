@@ -1,7 +1,8 @@
-// Holds the dynamic content for the resume sections
-// In a real app, this might load from a DB or localStorage
+// Dynamic content for the resume sections
+// Data will be loaded from MongoDB via backend API for logged-in users
 
-export let resumeSectionsData = {
+// Default template data - used for logged-out users or when no user data exists
+const defaultResumeData = {
   About: {
     title: 'About',
     panelId: 'about-panel',
@@ -86,6 +87,94 @@ export let resumeSectionsData = {
   }
 };
 
+// Active resume data - starts with default, gets overridden with user data
+export let resumeSectionsData = { ...defaultResumeData };
+
+// API Integration functions
+export async function loadUserResumeData() {
+  try {
+    // Check if user is logged in
+    const loginBridge = new window.LoginBridge();
+    if (!loginBridge.isLoggedIn()) {
+      console.log('User not logged in, using default template');
+      return false;
+    }
+
+    const token = loginBridge.getToken();
+    const backendUrl = 'http://localhost:8080';
+    
+    const response = await fetch(`${backendUrl}/api/resumes/me`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (response.status === 404) {
+      console.log('No user resume found, using default template');
+      return false;
+    }
+
+    if (!response.ok) {
+      throw new Error(`Failed to load resume: ${response.status}`);
+    }
+
+    const resumeData = await response.json();
+    console.log('📄 Loaded user resume from MongoDB:', resumeData);
+    
+    // Update resumeSectionsData with user's data
+    updateResumeDataFromBackend(resumeData);
+    return true;
+    
+  } catch (error) {
+    console.error('Error loading user resume data:', error);
+    return false;
+  }
+}
+
+function updateResumeDataFromBackend(backendData) {
+  // Map backend resume data to frontend sections
+  const dataMapping = {
+    'About': backendData.aboutMe,
+    'Skills': getContentFromField(backendData.skills),
+    'Experience': getContentFromField(backendData.experience),
+    'Projects': getContentFromField(backendData.projects),
+    'Education': getContentFromField(backendData.education)
+  };
+
+  Object.entries(dataMapping).forEach(([sectionTitle, content]) => {
+    if (content && resumeSectionsData[sectionTitle]) {
+      // Update the HTML content while preserving other properties
+      resumeSectionsData[sectionTitle].htmlContent = formatContentAsHTML(content);
+      console.log(`📝 Updated ${sectionTitle} with user data`);
+    }
+  });
+}
+
+function getContentFromField(field) {
+  if (typeof field === 'string') {
+    return field;
+  } else if (typeof field === 'object' && field !== null) {
+    return field.content || Object.values(field).join('\n');
+  }
+  return null;
+}
+
+function formatContentAsHTML(content) {
+  // Convert plain text content to basic HTML format
+  if (!content) return '';
+  
+  // If it's already HTML, return as-is
+  if (content.includes('<')) {
+    return content;
+  }
+  
+  // Convert line breaks to paragraphs
+  const paragraphs = content.split('\n\n').filter(p => p.trim());
+  return paragraphs.map(p => `<p>${p.trim()}</p>`).join('');
+}
+
 export function getSectionData(title) {
   return resumeSectionsData[title];
 }
@@ -124,4 +213,10 @@ export function updateSectionMediaContent(sectionTitle, mediaType, mediaSrc, fil
   } else {
     console.warn(`Section ${sectionTitle} not found in resumeSectionsData.`);
   }
+}
+
+// Reset to default data - useful for logout
+export function resetToDefaultData() {
+  resumeSectionsData = { ...defaultResumeData };
+  console.log('📄 Reset to default resume template');
 }

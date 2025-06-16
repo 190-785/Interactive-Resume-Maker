@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Forest Resume - Yash Agarwal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Interactive Forest Resume - Yash Agarwal</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"></script>
+    <script src="js/loginBridge.js"></script>
 
     </head>
 <body>
@@ -19,6 +19,14 @@
 
     <div id="error-message" class="error-message">
         An error occurred. Please check the console for details.
+    </div>
+
+    <!-- Login Status Indicator -->
+    <div id="login-status" style="position: fixed; top: 20px; right: 20px; background: rgba(0,0,0,0.7); color: white; padding: 10px 15px; border-radius: 8px; font-size: 14px; z-index: 1000; display: none;">
+        <span id="login-status-text">Not Logged In</span>
+        <div style="margin-top: 5px; font-size: 12px; opacity: 0.8;">
+            <span id="login-status-detail">Edit functionality disabled</span>
+        </div>
     </div>
 
     <div id="about-panel" class="info-panel">
@@ -168,8 +176,7 @@
         <div><b>D / &rarr;</b> : Steer Right</div>
         <div><b>Mouse Orbit/Scroll</b> : Camera Control</div>
         <div style="margin-top: 8px;">Approach scrolls to view resume sections.</div>
-    </div>
-
-    <script type="module" src="bundle.js"></script>
+    </div>    <script type="module" src="bundle.js"></script>
+    <script src="js/resumeIntegration.js"></script>
     </body>
 </html>

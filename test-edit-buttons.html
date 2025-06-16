@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Edit Button Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        .button-test {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+            display: block;
+            width: 200px;
+        }
+        .button-test:hover { background: #218838; }
+        .status {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .success { border-left: 4px solid #28a745; }
+        .error { border-left: 4px solid #dc3545; }
+        .info { border-left: 4px solid #17a2b8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Dashboard Edit Button Test</h1>
+        
+        <div class="status info">
+            <h3>Test Instructions:</h3>
+            <ol>
+                <li>Make sure the 3D server is running on port 3000</li>
+                <li>Click the test buttons below</li>
+                <li>Check if they redirect properly to the 3D scene</li>
+            </ol>
+        </div>
+
+        <h2>🔧 Server Status Check</h2>
+        <button class="button-test" onclick="checkServer()">Check Server Status</button>
+        <div id="server-status" class="status">Click to check server status...</div>
+
+        <h2>🎮 Dashboard Function Tests</h2>
+        <button class="button-test" onclick="testEditResume()">Test Edit Resume</button>
+        <button class="button-test" onclick="testCreateResume()">Test Create Resume</button>
+        <button class="button-test" onclick="testPreviewResume()">Test Preview Resume</button>
+        
+        <div id="test-results" class="status">Test results will appear here...</div>
+
+        <h2>🌲 Direct Access</h2>
+        <button class="button-test" onclick="window.open('http://localhost:3000', '_blank')">
+            Open 3D Scene Directly
+        </button>
+        <button class="button-test" onclick="window.open('file:///F:/Interavtive_Resume/Interactive-Resume-Maker/FrontEnd/Login/dashboard.html', '_blank')">
+            Open Dashboard
+        </button>
+    </div>
+
+    <script>
+        // Mock localStorage for testing
+        function setupMockAuth() {
+            localStorage.setItem('token', 'mock-token-for-testing');
+            localStorage.setItem('username', 'Test User');
+        }
+
+        // Check server status
+        async function checkServer() {
+            const statusDiv = document.getElementById('server-status');
+            statusDiv.innerHTML = '🔄 Checking server status...';
+            
+            try {
+                const response = await fetch('http://localhost:3000', {
+                    method: 'HEAD',
+                    mode: 'no-cors'
+                });
+                
+                statusDiv.innerHTML = `
+                    <div class="success">
+                        ✅ <strong>Server is RUNNING on port 3000!</strong><br>
+                        3D Forest Resume is accessible.
+                    </div>
+                `;
+            } catch (error) {
+                statusDiv.innerHTML = `
+                    <div class="error">
+                        ❌ <strong>Server is NOT running on port 3000</strong><br>
+                        Please start the server using start-3d-resume.bat
+                    </div>
+                `;
+            }
+        }
+
+        // Test edit resume function
+        async function testEditResume() {
+            setupMockAuth();
+            const resultsDiv = document.getElementById('test-results');
+            resultsDiv.innerHTML = '🔄 Testing Edit Resume function...';
+            
+            // Set edit mode
+            localStorage.setItem('forestDriveMode', 'edit');
+            
+            // Check if server is running
+            const isRunning = await checkServerRunning();
+            if (isRunning) {
+                resultsDiv.innerHTML = `
+                    <div class="success">
+                        ✅ <strong>Edit Resume Test PASSED!</strong><br>
+                        Server is running, redirecting to edit mode...
+                    </div>
+                `;
+                setTimeout(() => {
+                    window.open('http://localhost:3000', '_blank');
+                }, 1000);
+            } else {
+                resultsDiv.innerHTML = `
+                    <div class="error">
+                        ❌ <strong>Edit Resume Test FAILED!</strong><br>
+                        Server is not running on port 3000. Please start the server first.
+                    </div>
+                `;
+            }
+        }
+
+        // Test create resume function
+        async function testCreateResume() {
+            setupMockAuth();
+            const resultsDiv = document.getElementById('test-results');
+            resultsDiv.innerHTML = '🔄 Testing Create Resume function...';
+            
+            // Set create mode
+            localStorage.setItem('forestDriveMode', 'create');
+            
+            // Check if server is running
+            const isRunning = await checkServerRunning();
+            if (isRunning) {
+                resultsDiv.innerHTML = `
+                    <div class="success">
+                        ✅ <strong>Create Resume Test PASSED!</strong><br>
+                        Server is running, redirecting to create mode...
+                    </div>
+                `;
+                setTimeout(() => {
+                    window.open('http://localhost:3000', '_blank');
+                }, 1000);
+            } else {
+                resultsDiv.innerHTML = `
+                    <div class="error">
+                        ❌ <strong>Create Resume Test FAILED!</strong><br>
+                        Server is not running on port 3000. Please start the server first.
+                    </div>
+                `;
+            }
+        }
+
+        // Test preview resume function
+        async function testPreviewResume() {
+            setupMockAuth();
+            const resultsDiv = document.getElementById('test-results');
+            resultsDiv.innerHTML = '🔄 Testing Preview Resume function...';
+            
+            // Set preview mode
+            localStorage.setItem('forestDriveMode', 'preview');
+            localStorage.setItem('previewResumeId', 'test-resume-id');
+            
+            // Check if server is running
+            const isRunning = await checkServerRunning();
+            if (isRunning) {
+                resultsDiv.innerHTML = `
+                    <div class="success">
+                        ✅ <strong>Preview Resume Test PASSED!</strong><br>
+                        Server is running, redirecting to preview mode...
+                    </div>
+                `;
+                setTimeout(() => {
+                    window.open('http://localhost:3000', '_blank');
+                }, 1000);
+            } else {
+                resultsDiv.innerHTML = `
+                    <div class="error">
+                        ❌ <strong>Preview Resume Test FAILED!</strong><br>
+                        Server is not running on port 3000. Please start the server first.
+                    </div>
+                `;
+            }
+        }
+
+        // Check if server is running
+        async function checkServerRunning() {
+            try {
+                const response = await fetch('http://localhost:3000', {
+                    method: 'HEAD',
+                    mode: 'no-cors'
+                });
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        // Auto-check server on page load
+        setTimeout(checkServer, 1000);
+    </script>
+</body>
+</html>

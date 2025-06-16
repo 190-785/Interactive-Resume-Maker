@@ -1,15 +1,22 @@
 {
-  "name": "i_r",
+  "name": "forest-drive-3d-resume",
   "version": "1.0.0",
   "scripts": {
     "start": "webpack serve --config webpack.config.js --mode development --open",
-    "build": "webpack build public/index.html"
+    "build": "webpack --config webpack.config.js --mode production",
+    "dev": "webpack serve --config webpack.config.js --mode development"
   },
-  "keywords": [],
+  "keywords": [
+    "three.js",
+    "3d",
+    "resume",
+    "interactive"
+  ],
   "author": "",
-  "license": "ISC",
-  "description": "",
+  "license": "MIT",
+  "description": "Interactive 3D Forest Resume with Three.js",
   "dependencies": {
+    "@babel/runtime": "^7.27.6",
     "@types/dat.gui": "^0.7.13",
     "@types/three": "^0.176.0",
     "dat.gui": "^0.7.9",
@@ -18,6 +25,14 @@
     "three-stdlib": "^2.36.0"
   },
   "devDependencies": {
-    "parcel": "^2.14.4"
+    "@babel/core": "^7.22.0",
+    "@babel/plugin-transform-runtime": "^7.27.4",
+    "@babel/preset-env": "^7.22.0",
+    "babel-loader": "^9.1.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "raw-loader": "^4.0.2",
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.0",
+    "webpack-dev-server": "^4.15.0"
   }
 }
