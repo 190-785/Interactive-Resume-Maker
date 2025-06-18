@@ -165,3 +165,105 @@ buildNumber.properties
 
 # Temporary files
 tempCodeRunnerFile.js
+
+# Development and debug files
+*.debug.html
+*-debug.html
+*-test*.html
+test-*.html
+*-fix*.html
+*-guide*.html
+troubleshooting*.html
+setup*.html
+launcher*.html
+edit-test*.html
+mongodb-integration-test*.html
+
+# Batch and shell scripts (development utilities)
+*.bat
+*.sh
+comprehensive-fix.*
+quick-start.*
+start-*.bat
+start-*.sh
+fix-*.bat
+fix-*.sh
+setup-*.bat
+setup-*.sh
+
+# Development documentation and guides
+*.md.tmp
+*-COMPLETE.md
+*-FIXED.txt
+*-ENABLED.txt
+*-SETUP.md
+*-GUIDE.md
+*-COMMANDS.md
+TROUBLESHOOTING-*.md
+QUICK-*.md
+START-*.md
+STARTUP-*.md
+WINDOWS-*.md
+FOREST_*.md
+MONGODB-*.md
+PORT-*.txt
+EDIT-*.txt
+
+# Auto-generated service files
+auto-starter*.js
+auto-starter*.html
+*-manager.js
+*-controller.js
+server-controller.js
+forest-drive-manager.js
+start-server.js
+start-webpack-server.js
+start-control-server.html
+
+# Backup files
+*.bak
+*.backup
+*.orig
+*.tmp
+
+# OS and system files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Development logs and error files
+hs_err_pid*.log
+replay_pid*.log
+
+# Build artifacts
+dist/
+build/
+target/
+*.jar.original
+
+# Package manager files
+package-lock.json.bak
+yarn.lock.bak
+
+# Database files
+*.db
+*.sqlite
+*.mongodb
+
+# Configuration backups
+*.properties.bak
+*.json.bak
+*.js.bak
+
+# Development server files
+webpack-dev-server/
+dev-server/
