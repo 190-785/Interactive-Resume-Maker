@@ -828,15 +828,170 @@ EXPOSE 80
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+We welcome contributions to the Interactive Resume Maker! Here's how you can help:
+
+### 📋 How to Contribute
+
+1. **Fork the Repository**
+   - Click the "Fork" button on the top right of this repository
+   - Clone your fork locally: `git clone https://github.com/190-785/Interactive-Resume-Maker.git`
+
+2. **Set Up Your Development Environment**
+   - Follow the [Development Setup](#-development-setup) guide
+   - Ensure all tests pass: `mvn test` (for backend) and `npm test` (for frontend)
+
+3. **Create a Feature Branch**
+   ```bash
+   git checkout -b feature/your-feature-name
+   # or
+   git checkout -b bugfix/issue-description
+   # or
+   git checkout -b docs/documentation-update
+   ```
+
+4. **Make Your Changes**
+   - Write clean, well-documented code
+   - Follow the existing code style and conventions
+   - Add tests for new functionality
+   - Update documentation as needed
+
+5. **Test Your Changes**
+   ```bash
+   # Backend tests
+   cd BackEnd
+   mvn test
+   
+   # Frontend tests (if available)
+   cd FrontEnd/Forest_Drive
+   npm test
+   
+   # Manual testing
+   # Test the full application workflow
+   ```
+
+6. **Commit Your Changes**
+   ```bash
+   git add .
+   git commit -m "feat: add new resume section functionality"
+   # or
+   git commit -m "fix: resolve CORS issue with authentication"
+   # or
+   git commit -m "docs: update API documentation"
+   ```
+
+7. **Push and Create Pull Request**
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+   - Go to your fork on GitHub
+   - Click "New Pull Request"
+   - Fill out the PR template with details
+
+### 🎯 Contribution Guidelines
+
+#### Code Style
+- **Java**: Follow Oracle Java Code Conventions
+- **JavaScript**: Use ES6+ features, consistent indentation (2 spaces)
+- **Comments**: Write clear, concise comments for complex logic
+- **Naming**: Use meaningful variable and function names
+
+#### Commit Messages
+Use conventional commit format:
+- `feat:` for new features
+- `fix:` for bug fixes
+- `docs:` for documentation changes
+- `style:` for formatting changes
+- `refactor:` for code refactoring
+- `test:` for adding tests
+- `chore:` for maintenance tasks
+
+#### Pull Request Guidelines
+- **Title**: Clear, descriptive title
+- **Description**: Explain what changes were made and why
+- **Testing**: Describe how you tested the changes
+- **Screenshots**: Include screenshots for UI changes
+- **Breaking Changes**: Clearly document any breaking changes
+
+#### Types of Contributions Welcome
+- 🐛 **Bug Fixes**: Help us squash bugs
+- ✨ **New Features**: Add new functionality
+- 📚 **Documentation**: Improve docs, add examples
+- 🎨 **UI/UX**: Enhance the user interface
+- ⚡ **Performance**: Optimize code performance
+- 🔒 **Security**: Address security vulnerabilities
+- 🧪 **Testing**: Add or improve tests
+- 🌐 **Localization**: Add language support
+
+### 🔍 Code Review Process
+
+1. **Automated Checks**: Ensure all CI checks pass
+2. **Code Review**: Maintainer will review your code
+3. **Feedback**: Address any requested changes
+4. **Approval**: Once approved, your PR will be merged
+5. **Recognition**: Contributors will be acknowledged
+
+### 🚨 Issue Reporting
+
+When reporting issues:
+- **Search First**: Check if the issue already exists
+- **Use Templates**: Fill out the issue template completely
+- **Provide Context**: Include steps to reproduce, expected behavior, actual behavior
+- **Environment**: Specify your OS, browser, Java version, etc.
+- **Logs**: Include relevant error logs or console output
+
+### 💡 Feature Requests
+
+For new features:
+- **Check Roadmap**: Review existing feature requests
+- **Describe Use Case**: Explain why this feature would be valuable
+- **Propose Solution**: Suggest how it might be implemented
+- **Consider Alternatives**: Mention alternative approaches
+
+### 📞 Getting Help
+
+- **Discussions**: Use GitHub Discussions for questions
+- **Issues**: Create an issue for bugs or feature requests
+- **Contact**: Reach out via email or Twitter (see [Support](#-support))
+
+### 🏆 Recognition
+
+Contributors will be recognized in:
+- **Contributors Section**: Listed in the README
+- **Release Notes**: Mentioned in version releases
+- **Special Thanks**: Acknowledged for significant contributions
+
+Thank you for contributing to make Interactive Resume Maker better! 🚀
+
+## 📄 License
+
+This project is licensed under the **GNU General Public License v3.0** - see the [LICENSE](LICENSE) file for details.
+
+### 🔓 What This Means
+
+- ✅ **Freedom to Use**: You can use this software for any purpose
+- ✅ **Freedom to Study**: You can study how the program works and modify it
+- ✅ **Freedom to Distribute**: You can redistribute copies to help others
+- ✅ **Freedom to Improve**: You can distribute modified versions
+
+### 📋 License Summary
+
+The GPL-3.0 is a copyleft license that requires:
+- **Source Code**: Any distributed work must include source code
+- **Same License**: Derivative works must be licensed under GPL-3.0
+- **Patent Rights**: Contributors grant patent rights to users
+- **No Warranty**: Software is provided "as-is" without warranty
+
+### 🔗 Additional Resources
+
+- [Full License Text](https://www.gnu.org/licenses/gpl-3.0.en.html)
+- [GPL-3.0 FAQ](https://www.gnu.org/licenses/gpl-faq.html)
+- [Why GPL?](https://www.gnu.org/licenses/why-not-lgpl.html)
+
+---
 
 ## 👥 Authors
 
-- **Development Team** - Initial work and ongoing development
+- **[190-785](https://github.com/190-785)** - Initial work and ongoing development
 
 ## 🙏 Acknowledgments
 
@@ -855,5 +1010,11 @@ If you encounter any issues or have questions:
 2. Review the [API Documentation](#-api-documentation)
 3. Check application logs in `BackEnd/logs/`
 4. Open an issue in the repository
+
+### 📬 Contact Information
+
+- **Email**: [190e785@gmail.com](mailto:190e785@gmail.com)
+- **Twitter**: [@190_785](https://twitter.com/190_785)
+- **GitHub**: [190-785](https://github.com/190-785)
 
 **Happy Resume Building! 🚀**
